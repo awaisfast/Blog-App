@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { createAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 import "./sign-up-form.component.css";
 import ImageBackground from "../login-signup/image.component";
@@ -25,6 +26,7 @@ const SignUp = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { name, email, password, confirmPassword } = formFields;
   let isValid: boolean = false; //if all enteries are valid
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -39,6 +41,7 @@ const SignUp = () => {
           email,
           password
         );
+        response ? navigate("/Log-in") : navigate("/");
       } catch (error: any) {
         if (error.code === "auth/email-already-in-use") {
           const usedEmailAlert = document.querySelector(

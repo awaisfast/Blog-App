@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import { signInAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 import Alert from "../alert/alert.component";
 import Footer from "../login-signup/footer.component";
@@ -20,6 +20,7 @@ const LogIn = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
   let isValid: boolean = false; //if all enteries are valid
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -30,6 +31,7 @@ const LogIn = () => {
         password
       );
       setFormFields(defaultFormFields);
+      response ? navigate("/home") : navigate("/");
     } catch (error: any) {
       switch (error.code) {
         case "auth/wrong-password":

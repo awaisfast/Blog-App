@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { signInAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
+import {
+  db,
+  signInAuthUserWithEmailAndPassword,
+} from "../../utils/firebase/firebase.utils";
+import { UserContext } from "../../context/user.context";
 import Alert from "../alert/alert.component";
 import Footer from "../login-signup/footer.component";
 import ImageBackground from "../login-signup/image.component";
 import WelcomeContent from "../login-signup/welcome.component";
-import "./log-in-form.component.css";
 const LogIn = () => {
   type defaultForms = {
     email: string;
@@ -19,6 +22,7 @@ const LogIn = () => {
 
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
+  const { setCurrentUser } = useContext(UserContext);
   let isValid: boolean = false; //if all enteries are valid
   const navigate = useNavigate();
 
@@ -26,12 +30,13 @@ const LogIn = () => {
     event.preventDefault();
 
     try {
-      const response = await signInAuthUserWithEmailAndPassword(
+      const { user }: any = await signInAuthUserWithEmailAndPassword(
         email,
         password
       );
+      setCurrentUser(user);
       setFormFields(defaultFormFields);
-      response ? navigate("/home") : navigate("/");
+      user ? navigate("/") : navigate("/log-in");
     } catch (error: any) {
       switch (error.code) {
         case "auth/wrong-password":
@@ -42,7 +47,9 @@ const LogIn = () => {
           incorrect.classList.remove("hidden");
           break;
         case "auth/user-not-found":
-          const notFound = document.querySelector(".notFound")! as HTMLElement;
+          const notFound = document.querySelector(
+            ".user-notFound"
+          )! as HTMLElement;
 
           notFound.classList.remove("hidden");
           break;
@@ -54,8 +61,8 @@ const LogIn = () => {
 
   const handleChange = (event: { target: { name: string; value: string } }) => {
     const { name, value } = event.target;
-    const incorrect = document.querySelector(".incorrect")! as HTMLElement;
-    const notFound = document.querySelector(".notFound")! as HTMLElement;
+    const incorrect = document.querySelector(".incorrect-pw")! as HTMLElement;
+    const notFound = document.querySelector(".user-notFound")! as HTMLElement;
 
     incorrect.classList.add("hidden");
     notFound.classList.add("hidden");
@@ -71,7 +78,7 @@ const LogIn = () => {
   const checkEnteries = () => {
     if (email && password) {
       const submitButton = document.querySelector(
-        ".submitButton"
+        ".submit-button"
       )! as HTMLElement;
       if (isValid) {
         submitButton.classList.remove("opacity-30");
@@ -82,7 +89,7 @@ const LogIn = () => {
   };
   const emailBorder = (email: string) => {
     const emailInput = document.querySelector(".email-input")! as HTMLElement;
-    const emailAlert = document.querySelector(".emailAlert")! as HTMLElement;
+    const emailAlert = document.querySelector(".email-alert")! as HTMLElement;
 
     if (email.includes("@") && email.includes(".com")) {
       emailInput.classList.add("border-green");
@@ -96,7 +103,7 @@ const LogIn = () => {
   };
   const passwordBorder = (password: string) => {
     const pwInput = document.querySelector(".pw-input")! as HTMLElement;
-    const passAlert = document.querySelector(".passAlert")! as HTMLElement;
+    const passAlert = document.querySelector(".pass-alert")! as HTMLElement;
 
     if (password.length > 5) {
       pwInput.classList.add("border-green");
@@ -110,25 +117,31 @@ const LogIn = () => {
   };
   return (
     <>
-      <div className="signUp-Page h-full flex">
+      <div className="signUp-page h-full flex">
         <ImageBackground props={"Login"} />
-        <div className="signUp-Content w-full flex flex-col laptop:w-3/5">
+        <div className="signUp-content w-full flex flex-col laptop:w-3/5">
           <div className="w-9/12 m-auto">
             <WelcomeContent content={"log you in"} />
-            <div className="notFound mt-5 hidden">
+            <div className="user-notFound mt-5 hidden">
               <Alert props="The use not found !" color="yellow" />
             </div>
-            <div className="incorrect mt-5 hidden">
+            <div className="incorrect-pw mt-5 hidden">
               <Alert props="Incorrect Password !" color="red" />
             </div>
-            <div className="emailAlert mt-5 hidden">
+            <div className="email-alert mt-5 hidden">
               <Alert props="Enter valid Email Address" color="red" />
             </div>
-            <div className="passAlert mt-5 hidden">
-              <Alert props="Password must be 6 characters long" color="red" />
+            <div className="pass-alert mt-5 hidden">
+              <Alert
+                props="Password must be atleast 6 characters long"
+                color="red"
+              />
             </div>
             <div className="inputs mt-5">
-              <form className="formField flex flex-col" onSubmit={handleSubmit}>
+              <form
+                className="form-field flex flex-col"
+                onSubmit={handleSubmit}
+              >
                 <input
                   className="email-input"
                   type="email"
@@ -150,7 +163,7 @@ const LogIn = () => {
                 />
 
                 <button
-                  className="submitButton mt-5 pt-5 pb-5 w-1/1 bg-[#272727] text-white opacity-30 font-semibold text-xl not-italic tablet:w-2/6"
+                  className="submit-button mt-5 pt-5 pb-5 w-1/1 bg-[#272727] text-white opacity-30 font-semibold text-xl not-italic tablet:w-2/6"
                   type="submit"
                 >
                   LOGIN
@@ -158,7 +171,9 @@ const LogIn = () => {
               </form>
             </div>
             <div className="mt-10">
-              <Footer content={["Don't have an account ?", "/", "Sign-up"]} />
+              <Footer
+                content={["Don't have an account ?", "/sign-up", "Sign-up"]}
+              />
             </div>
           </div>
         </div>

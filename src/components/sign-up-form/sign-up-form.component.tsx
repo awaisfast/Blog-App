@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
-import "./sign-up-form.component.css";
+import {
+  createAuthUserWithEmailAndPassword,
+  createUserDocumentFromAuth,
+} from "../../utils/firebase/firebase.utils";
+import "../sign-up-form/sign-up-form.component.css";
+
 import ImageBackground from "../login-signup/image.component";
 import WelcomeContent from "../login-signup/welcome.component";
 import Footer from "../login-signup/footer.component";
@@ -32,20 +36,21 @@ const SignUp = () => {
     event.preventDefault();
     if (name && email && password && confirmPassword) {
       if (password !== confirmPassword) {
-        const cpwAlert = document.querySelector(".cpwAlert")! as HTMLElement;
+        const cpwAlert = document.querySelector(".cpw-alert")! as HTMLElement;
         cpwAlert.classList.remove("hidden");
         return;
       }
       try {
-        const response = await createAuthUserWithEmailAndPassword(
+        const { user }: any = await createAuthUserWithEmailAndPassword(
           email,
           password
         );
-        response ? navigate("/Log-in") : navigate("/");
+        await createUserDocumentFromAuth(user, { name });
+        user ? navigate("/Log-in") : navigate("/");
       } catch (error: any) {
         if (error.code === "auth/email-already-in-use") {
           const usedEmailAlert = document.querySelector(
-            ".usedEmail"
+            ".used-email"
           )! as HTMLElement;
 
           usedEmailAlert.classList.remove("hidden");
@@ -56,6 +61,10 @@ const SignUp = () => {
   };
 
   const handleChange = (event: { target: { name: string; value: string } }) => {
+    const usedEmailAlert = document.querySelector(
+      ".used-email"
+    )! as HTMLElement;
+    usedEmailAlert.classList.add("hidden");
     const { name, value } = event.target;
 
     setFormFields({ ...formFields, [name]: value });
@@ -76,7 +85,7 @@ const SignUp = () => {
   const checkEnteries = () => {
     if (name && email && password && confirmPassword) {
       const submitButton = document.querySelector(
-        ".submitButton"
+        ".submit-button"
       )! as HTMLElement;
       if (isValid) {
         submitButton.classList.remove("opacity-30");
@@ -87,7 +96,7 @@ const SignUp = () => {
   };
   const nameBorder = (name: string) => {
     const nameInput = document.querySelector(".name-input")! as HTMLElement;
-    const nameAlert = document.querySelector(".nameAlert")! as HTMLElement;
+    const nameAlert = document.querySelector(".name-alert")! as HTMLElement;
     if (name.length > 0) {
       nameInput.classList.add("border-green");
       nameAlert.classList.add("hidden");
@@ -100,7 +109,7 @@ const SignUp = () => {
   };
   const emailBorder = (email: string) => {
     const emailInput = document.querySelector(".email-input")! as HTMLElement;
-    const emailAlert = document.querySelector(".emailAlert")! as HTMLElement;
+    const emailAlert = document.querySelector(".email-alert")! as HTMLElement;
 
     if (email.includes("@") && email.includes(".com")) {
       emailInput.classList.add("border-green");
@@ -114,7 +123,7 @@ const SignUp = () => {
   };
   const passwordBorder = (password: string) => {
     const pwInput = document.querySelector(".pw-input")! as HTMLElement;
-    const passAlert = document.querySelector(".passAlert")! as HTMLElement;
+    const passAlert = document.querySelector(".pass-alert")! as HTMLElement;
     if (password.length > 5) {
       pwInput.classList.add("border-green");
       passAlert.classList.add("hidden");
@@ -127,7 +136,7 @@ const SignUp = () => {
   };
   const cnPasswordBorder = (cnPassword: string, password: string) => {
     const cpwInput = document.querySelector(".cpw-input")! as HTMLElement;
-    const cpwAlert = document.querySelector(".cpwAlert")! as HTMLElement;
+    const cpwAlert = document.querySelector(".cpw-alert")! as HTMLElement;
     if (cnPassword === password) {
       cpwInput.classList.add("border-green");
       cpwAlert.classList.add("hidden");
@@ -146,23 +155,29 @@ const SignUp = () => {
         <div className="signUp-Content w-full flex flex-col laptop:w-3/5">
           <div className="w-9/12 m-auto">
             <WelcomeContent content={"sign you up"} />
-            <div className="nameAlert mt-5 hidden">
+            <div className="name-alert mt-5 hidden">
               <Alert props="Enter full name" color="yellow" />
             </div>
-            <div className="emailAlert mt-5 hidden">
+            <div className="email-alert mt-5 hidden">
               <Alert props="Enter valid Email Address" color="red" />
             </div>
-            <div className="passAlert mt-5 hidden">
-              <Alert props="Password must be 6 characters long" color="red" />
+            <div className="pass-alert mt-5 hidden">
+              <Alert
+                props="Password must be atleast 6 characters long"
+                color="red"
+              />
             </div>
-            <div className="cpwAlert mt-5 hidden">
+            <div className="cpw-alert mt-5 hidden">
               <Alert props="Passwords donot match" color="red" />
             </div>
-            <div className="usedEmail mt-5 hidden">
+            <div className="used-email mt-5 hidden">
               <Alert props="Email already in use" color="yellow" />
             </div>
             <div className="inputs mt-5">
-              <form className="formField flex flex-col" onSubmit={handleSubmit}>
+              <form
+                className="form-field flex flex-col"
+                onSubmit={handleSubmit}
+              >
                 <input
                   className="name-input"
                   type="text"
@@ -203,7 +218,7 @@ const SignUp = () => {
                   required
                 />
                 <button
-                  className="submitButton mt-5 pt-5 pb-5 w-1/1 bg-[#272727] text-white opacity-30 font-semibold text-xl not-italic tablet:w-2/6"
+                  className="submit-button mt-5 pt-5 pb-5 w-1/1 bg-[#272727] text-white opacity-30 font-semibold text-xl not-italic tablet:w-2/6"
                   type="submit"
                 >
                   SUBMIT
@@ -212,7 +227,7 @@ const SignUp = () => {
             </div>
             <div className="mt-10">
               <Footer
-                content={["Already have an account ?", "/Log-in", "log-in"]}
+                content={["Already have an account ?", "/log-in", "log-in"]}
               />
             </div>
           </div>

@@ -3,7 +3,10 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+
 const firebaseConfig = {
   apiKey: "AIzaSyAwoy_yOomZfFhadGibTHDdVDLh87wWcSY",
   authDomain: "blogging-application-68dc1.firebaseapp.com",
@@ -15,6 +18,34 @@ const firebaseConfig = {
 const firebaseapp = initializeApp(firebaseConfig);
 
 export const auth = getAuth();
+export const db = getFirestore(firebaseapp);
+
+export const createUserDocumentFromAuth = async (
+  userAuth: any,
+  additionalInformation = {}
+) => {
+  if (!userAuth) return;
+  const userDocRef = doc(db, "users", userAuth.uid);
+
+  const userSnapshot = await getDoc(userDocRef);
+
+  if (!userSnapshot.exists()) {
+    const { email } = userAuth;
+    const createdAt = new Date();
+    try {
+      await setDoc(userDocRef, {
+        email,
+        createdAt,
+        ...additionalInformation,
+      });
+    } catch (error) {
+      console.log("error creating the user", error);
+    }
+  }
+
+  return userDocRef;
+};
+
 export const createAuthUserWithEmailAndPassword = async (
   email: string,
   password: string
@@ -32,3 +63,5 @@ export const signInAuthUserWithEmailAndPassword = async (
 
   return await signInWithEmailAndPassword(auth, email, password);
 };
+
+export const signOutUser = async () => await signOut(auth);

@@ -10,12 +10,19 @@ import { signOutUser } from "../../utils/firebase/firebase.utils";
 
 const NavBar = () => {
   const { setCurrentUser, currentUser }: any = useContext(UserContext);
-  const userInitital = currentUser.displayName[0].toUpperCase();
-  const displayName = currentUser.displayName;
+  let userInitital;
+  let displayName;
+
+  if (currentUser) {
+    userInitital = currentUser.displayName[0].toUpperCase();
+    displayName = currentUser.displayName;
+  }
 
   const signOutHandler = async () => {
     await signOutUser();
     setCurrentUser(null);
+    window.localStorage.setItem("isLoggedIn", "false");
+    window.localStorage.setItem("userContext", "");
   };
   return (
     <>
@@ -47,15 +54,27 @@ const NavBar = () => {
               create
             </h1>
           </div>
+          <button onClick={signOutHandler} className=" laptop:hidden">
+            <div className="log-out flex justify-center items-center">
+              <div className="symbol bg-primary flex justify-center items-center h-10 w-10 rounded-full laptop:h-16 laptop:w-16">
+                <h1 className=" font-normal text-xl leading-6 not-italic text-darkgrey laptop:text-3xl laptop:leading-10">
+                  <FontAwesomeIcon icon={faArrowAltCircleLeft} />
+                </h1>
+              </div>
+              <h1 className="ml-5 font-normal text-base leading-5 text-white font-lexend hidden tablet:block">
+                LOGOUT
+              </h1>
+            </div>
+          </button>
         </div>
         <button onClick={signOutHandler} className="hidden laptop:block">
           <div className="log-out">
-            <div className="symbol bg-primary flex justify-center items-center h-14 w-14 rounded-full laptop:h-16 laptop:w-16">
-              <h1 className=" font-normal text-3xl leading-10 not-italic text-darkgrey">
+            <div className="symbol bg-primary flex justify-center items-center h-10 w-10 rounded-full laptop:h-16 laptop:w-16">
+              <h1 className=" font-normal text-xl leading-6 not-italic text-darkgrey laptop:text-3xl laptop:leading-10">
                 <FontAwesomeIcon icon={faArrowAltCircleLeft} />
               </h1>
             </div>
-            <h1 className="text-white">LOGOUT</h1>
+            <h1 className="text-white hidden laptop:block">LOGOUT</h1>
           </div>
         </button>
       </div>

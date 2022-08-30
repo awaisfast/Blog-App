@@ -9,7 +9,7 @@ import WelcomeContent from "../login-signup/welcome.component";
 import CheckEmail from "../../utils/validation/email.validation.component";
 import CheckPassword from "../../utils/validation/password.validation.component";
 import CheckAllEnteries from "../../utils/validation/all-enteries.validation.component";
-import { UserCredential } from "firebase/auth";
+import { User, UserCredential } from "firebase/auth";
 const LogIn = () => {
   type defaultForms = {
     email: string;
@@ -40,6 +40,8 @@ const LogIn = () => {
       const { user }: any = res;
       setCurrentUser(user);
       setFormFields(defaultFormFields);
+      window.localStorage.setItem("isLoggedIn", "true");
+      window.localStorage.setItem("userContext", JSON.stringify(user));
       user ? navigate("/") : navigate("/log-in");
     } catch (error: any) {
       switch (error.code) {
@@ -104,21 +106,7 @@ const LogIn = () => {
         <div className="signUp-content w-full flex flex-col laptop:w-3/5">
           <div className="w-9/12 m-auto">
             <WelcomeContent content={"log you in"} />
-            <div className="user-notFound mt-5 hidden">
-              <Alert props="The user not found !" color="yellow" />
-            </div>
-            <div className="incorrect-pw mt-5 hidden">
-              <Alert props="Incorrect Password !" color="red" />
-            </div>
-            <div className="email-alert mt-5 hidden">
-              <Alert props="Enter valid Email Address" color="red" />
-            </div>
-            <div className="pass-alert mt-5 hidden">
-              <Alert
-                props="Password must be atleast 6 characters long"
-                color="red"
-              />
-            </div>
+
             <div className="inputs mt-5">
               <form
                 className="form-field flex flex-col"
@@ -133,7 +121,6 @@ const LogIn = () => {
                   onChange={handleChange}
                   required
                 />
-
                 <input
                   className="pw-input"
                   type="password"
@@ -143,7 +130,6 @@ const LogIn = () => {
                   onChange={handleChange}
                   required
                 />
-
                 <button
                   className="submit-button mt-5 pt-5 pb-5 w-1/1 bg-darkgrey text-white opacity-30 font-semibold text-xl not-italic tablet:w-2/6"
                   type="submit"
@@ -155,10 +141,24 @@ const LogIn = () => {
             </div>
             <div className="mt-10">
               <Footer
-                msg={"Don't have an account ?"}
+                msg={"Don't have an account?"}
                 to={"/sign-up"}
                 link={"Sign-up"}
               />
+            </div>
+            <div className="alerts mt-3">
+              <div className="user-notFound hidden">
+                <Alert props="Email or password are incorrect." />
+              </div>
+              <div className="incorrect-pw hidden">
+                <Alert props="Email or password are incorrect." />
+              </div>
+              <div className="email-alert hidden">
+                <Alert props="Enter valid Email Address." />
+              </div>
+              <div className="pass-alert hidden">
+                <Alert props="Password must be atleast 6 characters long." />
+              </div>
             </div>
           </div>
         </div>

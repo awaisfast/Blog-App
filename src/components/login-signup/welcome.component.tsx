@@ -7,7 +7,7 @@ const WelcomeContent = ({ content }: Content) => {
       <h1 className="font-normal text-5xl not-italic text-[#272727] font-serif">
         Welcome
       </h1>
-      <p className="font-light text-2xl leading-7 not-italic text-[#A5A5A5] font-lexend">
+      <p className="font-light mt-3 text-2xl leading-7 not-italic text-[#A5A5A5] font-lexend">
         Let's {content} quickly
       </p>
     </div>

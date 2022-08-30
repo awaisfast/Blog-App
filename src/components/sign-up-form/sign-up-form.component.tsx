@@ -135,24 +135,6 @@ const SignUp = () => {
         <div className="signUp-Content w-full flex flex-col laptop:w-3/5">
           <div className="w-9/12 m-auto">
             <WelcomeContent content={"sign you up"} />
-            <div className="name-alert mt-5 hidden">
-              <Alert props="Enter full name" color="yellow" />
-            </div>
-            <div className="email-alert mt-5 hidden">
-              <Alert props="Enter valid Email Address" color="red" />
-            </div>
-            <div className="pass-alert mt-5 hidden">
-              <Alert
-                props="Password must be atleast 6 characters long"
-                color="red"
-              />
-            </div>
-            <div className="cpw-alert mt-5 hidden">
-              <Alert props="Passwords donot match" color="red" />
-            </div>
-            <div className="used-email mt-5 hidden">
-              <Alert props="Email already in use" color="yellow" />
-            </div>
             <div className="inputs mt-5">
               <form
                 className="form-field flex flex-col"
@@ -198,7 +180,7 @@ const SignUp = () => {
                   required
                 />
                 <button
-                  className="submit-button mt-5 pt-5 pb-5 w-1/1 bg-darkgrey text-white opacity-30 font-semibold text-xl not-italic tablet:w-2/6"
+                  className="submit-button max-w-screen-sm mt-5 pt-5 pb-5 w-1/1 bg-darkgrey text-white opacity-30 font-semibold text-xl not-italic tablet:w-2/6"
                   type="submit"
                   disabled={true}
                 >
@@ -208,10 +190,27 @@ const SignUp = () => {
             </div>
             <div className="mt-10">
               <Footer
-                msg={"Already have an account ?"}
+                msg={"Already have an account?"}
                 to={"/log-in"}
                 link={"log-in"}
               />
+            </div>
+            <div className="alerts mt-3">
+              <div className="name-alert hidden">
+                <Alert props="Enter full name." />
+              </div>
+              <div className="email-alert mt-5 hidden">
+                <Alert props="Enter valid Email Address." />
+              </div>
+              <div className="pass-alert mt-5 hidden">
+                <Alert props="Password must be atleast 6 characters long." />
+              </div>
+              <div className="cpw-alert mt-5 hidden">
+                <Alert props="Passwords do not match." />
+              </div>
+              <div className="used-email mt-5 hidden">
+                <Alert props="Email already exists." />
+              </div>
             </div>
           </div>
         </div>

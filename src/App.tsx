@@ -4,12 +4,17 @@ import Home from "./components/home/home.component";
 import { Routes, Route } from "react-router-dom";
 import PrivateRoutes from "./utils/firebase/private-routes.utils";
 const App = () => {
+  const loggedIn = window.localStorage.getItem("isLoggedIn");
+
   return (
     <Routes>
       <Route path="/sign-up" element={<SignUp />}></Route>
       <Route path="/log-in" element={<LogIn />}></Route>
       <Route element={<PrivateRoutes />}>
-        <Route path="/" element={<Home />}></Route>
+        <Route
+          path="/"
+          element={loggedIn === "true" ? <Home /> : <LogIn />}
+        ></Route>
       </Route>
     </Routes>
   );

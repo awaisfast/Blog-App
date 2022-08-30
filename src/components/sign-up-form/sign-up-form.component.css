@@ -1,5 +1,6 @@
 .form-field input {
   width: 100%;
+  max-width: 768px;
   height: 60px;
   border: 1px solid;
   color: grey;
@@ -7,6 +8,9 @@
   padding: 10px 20px;
   background-color: white;
   outline: none;
+}
+.form-field button {
+  max-width: 768px;
 }
 .form-field .border-green {
   border: 1px solid;

@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 interface Content {
   props: string;
-  color: string;
 }
-const Alert = ({ props, color }: Content) => {
+const Alert = ({ props }: Content) => {
   const [showAlert, setShowAlert] = useState(true);
   return (
     <>
       {showAlert ? (
         <>
           <div
-            className={
-              "text-white px-6 py-2 border-0 rounded relative mb-4 bg-red-400"
-            }
+            className={"text-white px-6 py-2 border-0 rounded bg-red-400 fixed"}
           >
             <span className="text-xl inline-block mr-5 align-middle">
               <i className="fas fa-bell" />

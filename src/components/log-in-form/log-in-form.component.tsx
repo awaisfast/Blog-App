@@ -1,14 +1,15 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  db,
-  signInAuthUserWithEmailAndPassword,
-} from "../../utils/firebase/firebase.utils";
+import { signInAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 import { UserContext } from "../../context/user.context";
 import Alert from "../alert/alert.component";
 import Footer from "../login-signup/footer.component";
 import ImageBackground from "../login-signup/image.component";
 import WelcomeContent from "../login-signup/welcome.component";
+import CheckEmail from "../../utils/validation/email.validation.component";
+import CheckPassword from "../../utils/validation/password.validation.component";
+import CheckAllEnteries from "../../utils/validation/all-enteries.validation.component";
+import { UserCredential } from "firebase/auth";
 const LogIn = () => {
   type defaultForms = {
     email: string;
@@ -28,12 +29,15 @@ const LogIn = () => {
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
-
+    const submitButton = document.querySelector(
+      ".submit-button"
+    )! as HTMLButtonElement;
+    submitButton.disabled = true;
+    submitButton.classList.add("opacity-30");
     try {
-      const { user }: any = await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
+      const res: UserCredential | undefined =
+        await signInAuthUserWithEmailAndPassword(email, password);
+      const { user }: any = res;
       setCurrentUser(user);
       setFormFields(defaultFormFields);
       user ? navigate("/") : navigate("/log-in");
@@ -41,7 +45,7 @@ const LogIn = () => {
       switch (error.code) {
         case "auth/wrong-password":
           const incorrect = document.querySelector(
-            ".incorrect"
+            ".incorrect-pw"
           )! as HTMLElement;
 
           incorrect.classList.remove("hidden");
@@ -79,41 +83,19 @@ const LogIn = () => {
     if (email && password) {
       const submitButton = document.querySelector(
         ".submit-button"
-      )! as HTMLElement;
-      if (isValid) {
-        submitButton.classList.remove("opacity-30");
-      } else {
-        submitButton.classList.add("opacity-30");
-      }
+      )! as HTMLButtonElement;
+      CheckAllEnteries(isValid, submitButton);
     }
   };
   const emailBorder = (email: string) => {
     const emailInput = document.querySelector(".email-input")! as HTMLElement;
     const emailAlert = document.querySelector(".email-alert")! as HTMLElement;
-
-    if (email.includes("@") && email.includes(".com")) {
-      emailInput.classList.add("border-green");
-      emailAlert.classList.add("hidden");
-      isValid = true;
-    } else {
-      emailInput.classList.remove("border-green");
-      emailAlert.classList.remove("hidden");
-      isValid = false;
-    }
+    isValid = CheckEmail(email, emailInput, emailAlert);
   };
   const passwordBorder = (password: string) => {
-    const pwInput = document.querySelector(".pw-input")! as HTMLElement;
+    const passInput = document.querySelector(".pw-input")! as HTMLElement;
     const passAlert = document.querySelector(".pass-alert")! as HTMLElement;
-
-    if (password.length > 5) {
-      pwInput.classList.add("border-green");
-      passAlert.classList.add("hidden");
-      isValid = true;
-    } else {
-      pwInput.classList.remove("border-green");
-      passAlert.classList.remove("hidden");
-      isValid = false;
-    }
+    isValid = CheckPassword(password, passInput, passAlert);
   };
   return (
     <>
@@ -123,7 +105,7 @@ const LogIn = () => {
           <div className="w-9/12 m-auto">
             <WelcomeContent content={"log you in"} />
             <div className="user-notFound mt-5 hidden">
-              <Alert props="The use not found !" color="yellow" />
+              <Alert props="The user not found !" color="yellow" />
             </div>
             <div className="incorrect-pw mt-5 hidden">
               <Alert props="Incorrect Password !" color="red" />
@@ -163,8 +145,9 @@ const LogIn = () => {
                 />
 
                 <button
-                  className="submit-button mt-5 pt-5 pb-5 w-1/1 bg-[#272727] text-white opacity-30 font-semibold text-xl not-italic tablet:w-2/6"
+                  className="submit-button mt-5 pt-5 pb-5 w-1/1 bg-darkgrey text-white opacity-30 font-semibold text-xl not-italic tablet:w-2/6"
                   type="submit"
+                  disabled={true}
                 >
                   LOGIN
                 </button>
@@ -172,7 +155,9 @@ const LogIn = () => {
             </div>
             <div className="mt-10">
               <Footer
-                content={["Don't have an account ?", "/sign-up", "Sign-up"]}
+                msg={"Don't have an account ?"}
+                to={"/sign-up"}
+                link={"Sign-up"}
               />
             </div>
           </div>

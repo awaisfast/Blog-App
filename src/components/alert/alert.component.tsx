@@ -1,10 +1,10 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 interface Content {
   props: string;
   color: string;
 }
 const Alert = ({ props, color }: Content) => {
-  const [showAlert, setShowAlert] = React.useState(true);
+  const [showAlert, setShowAlert] = useState(true);
   return (
     <>
       {showAlert ? (

@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
 import {
+  User,
+  updateProfile,
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -21,7 +23,7 @@ export const auth = getAuth();
 export const db = getFirestore(firebaseapp);
 
 export const createUserDocumentFromAuth = async (
-  userAuth: any,
+  userAuth: User,
   additionalInformation = {}
 ) => {
   if (!userAuth) return;
@@ -48,11 +50,17 @@ export const createUserDocumentFromAuth = async (
 
 export const createAuthUserWithEmailAndPassword = async (
   email: string,
-  password: string
+  password: string,
+  name: string
 ) => {
-  if (!email || !password) return;
-
-  return await createUserWithEmailAndPassword(auth, email, password);
+  if (!email || !password || !name) return;
+  const res = await createUserWithEmailAndPassword(auth, email, password);
+  if (auth) {
+    updateProfile(auth.currentUser as User, {
+      displayName: name,
+    });
+  }
+  return res;
 };
 
 export const signInAuthUserWithEmailAndPassword = async (

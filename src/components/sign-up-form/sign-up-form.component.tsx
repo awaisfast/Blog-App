@@ -11,6 +11,12 @@ import WelcomeContent from "../login-signup/welcome.component";
 import Footer from "../login-signup/footer.component";
 
 import Alert from "../alert/alert.component";
+import { UserCredential } from "firebase/auth";
+import CheckEmail from "../../utils/validation/email.validation.component";
+import CheckPassword from "../../utils/validation/password.validation.component";
+import CheckName from "../../utils/validation/name.validation.component";
+import CheckConfirmPassword from "../../utils/validation/confirm-password.validation.component";
+import CheckAllEnteries from "../../utils/validation/all-enteries.validation.component";
 
 const SignUp = () => {
   type defaultForms = {
@@ -27,13 +33,24 @@ const SignUp = () => {
     confirmPassword: "",
   };
 
+  type Error = {
+    code: string;
+    message: string;
+    name: string;
+  };
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { name, email, password, confirmPassword } = formFields;
   let isValid: boolean = false; //if all enteries are valid
+
   const navigate = useNavigate();
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
+    const submitButton = document.querySelector(
+      ".submit-button"
+    )! as HTMLButtonElement;
+    submitButton.disabled = true;
+    submitButton.classList.add("opacity-30");
     if (name && email && password && confirmPassword) {
       if (password !== confirmPassword) {
         const cpwAlert = document.querySelector(".cpw-alert")! as HTMLElement;
@@ -41,18 +58,18 @@ const SignUp = () => {
         return;
       }
       try {
-        const { user }: any = await createAuthUserWithEmailAndPassword(
-          email,
-          password
-        );
-        await createUserDocumentFromAuth(user, { name });
-        user ? navigate("/Log-in") : navigate("/");
-      } catch (error: any) {
-        if (error.code === "auth/email-already-in-use") {
+        const res: UserCredential | undefined =
+          await createAuthUserWithEmailAndPassword(email, password, name);
+        if (res) {
+          const { user } = res;
+          await createUserDocumentFromAuth(user, { name });
+          user ? navigate("/log-in") : navigate("/");
+        }
+      } catch (error: unknown) {
+        if ((error as Error).code === "auth/email-already-in-use") {
           const usedEmailAlert = document.querySelector(
             ".used-email"
           )! as HTMLElement;
-
           usedEmailAlert.classList.remove("hidden");
         }
       }
@@ -86,66 +103,29 @@ const SignUp = () => {
     if (name && email && password && confirmPassword) {
       const submitButton = document.querySelector(
         ".submit-button"
-      )! as HTMLElement;
-      if (isValid) {
-        submitButton.classList.remove("opacity-30");
-      } else {
-        submitButton.classList.add("opacity-30");
-      }
+      )! as HTMLButtonElement;
+      CheckAllEnteries(isValid, submitButton);
     }
   };
   const nameBorder = (name: string) => {
     const nameInput = document.querySelector(".name-input")! as HTMLElement;
     const nameAlert = document.querySelector(".name-alert")! as HTMLElement;
-    if (name.length > 0) {
-      nameInput.classList.add("border-green");
-      nameAlert.classList.add("hidden");
-      isValid = true;
-    } else {
-      nameInput.classList.remove("border-green");
-      nameAlert.classList.remove("hidden");
-      isValid = false;
-    }
+    isValid = CheckName(name, nameInput, nameAlert);
   };
   const emailBorder = (email: string) => {
     const emailInput = document.querySelector(".email-input")! as HTMLElement;
     const emailAlert = document.querySelector(".email-alert")! as HTMLElement;
-
-    if (email.includes("@") && email.includes(".com")) {
-      emailInput.classList.add("border-green");
-      emailAlert.classList.add("hidden");
-      isValid = true;
-    } else {
-      emailInput.classList.remove("border-green");
-      emailAlert.classList.remove("hidden");
-      isValid = false;
-    }
+    isValid = CheckEmail(email, emailInput, emailAlert);
   };
   const passwordBorder = (password: string) => {
-    const pwInput = document.querySelector(".pw-input")! as HTMLElement;
+    const passInput = document.querySelector(".pw-input")! as HTMLElement;
     const passAlert = document.querySelector(".pass-alert")! as HTMLElement;
-    if (password.length > 5) {
-      pwInput.classList.add("border-green");
-      passAlert.classList.add("hidden");
-      isValid = true;
-    } else {
-      pwInput.classList.remove("border-green");
-      passAlert.classList.remove("hidden");
-      isValid = false;
-    }
+    isValid = CheckPassword(password, passInput, passAlert);
   };
   const cnPasswordBorder = (cnPassword: string, password: string) => {
     const cpwInput = document.querySelector(".cpw-input")! as HTMLElement;
     const cpwAlert = document.querySelector(".cpw-alert")! as HTMLElement;
-    if (cnPassword === password) {
-      cpwInput.classList.add("border-green");
-      cpwAlert.classList.add("hidden");
-      isValid = true;
-    } else {
-      cpwInput.classList.remove("border-green");
-      cpwAlert.classList.remove("hidden");
-      isValid = false;
-    }
+    isValid = CheckConfirmPassword(password, cnPassword, cpwInput, cpwAlert);
   };
 
   return (
@@ -218,8 +198,9 @@ const SignUp = () => {
                   required
                 />
                 <button
-                  className="submit-button mt-5 pt-5 pb-5 w-1/1 bg-[#272727] text-white opacity-30 font-semibold text-xl not-italic tablet:w-2/6"
+                  className="submit-button mt-5 pt-5 pb-5 w-1/1 bg-darkgrey text-white opacity-30 font-semibold text-xl not-italic tablet:w-2/6"
                   type="submit"
+                  disabled={true}
                 >
                   SUBMIT
                 </button>
@@ -227,7 +208,9 @@ const SignUp = () => {
             </div>
             <div className="mt-10">
               <Footer
-                content={["Already have an account ?", "/log-in", "log-in"]}
+                msg={"Already have an account ?"}
+                to={"/log-in"}
+                link={"log-in"}
               />
             </div>
           </div>

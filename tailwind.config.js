@@ -3,17 +3,24 @@ module.exports = {
   content: ["./src/**/*.{html,tsx}", "./src/components/**/*.{html,tsx}"],
   theme: {
     extend: {
+      dropShadow: {
+        navshadow: "0 -6mm 4mm white",
+      },
       backgroundImage: {
-        "signup-background": "url('/src/assets/bg-img.jpg')",
+        authbackground: "url('/src/assets/bg-img.jpg')",
         "login-background": "url('/src/assets/bg-img.jpg')",
       },
       fontFamily: {
         serif: "DM Serif Display",
         lexend: "Lexend Deca",
       },
+      colors: {
+        primary: "#56CC6A",
+        darkgrey: "#272727",
+      },
     },
     screens: {
-      tablet: "800px",
+      tablet: "640px",
       // => @media (min-width: 640px) { ... }
 
       laptop: "1024px",

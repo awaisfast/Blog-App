@@ -1,20 +1,11 @@
-import { useContext } from "react";
-import { UserContext } from "../../context/user.context";
-import { signOutUser } from "../../utils/firebase/firebase.utils";
-
+import NavBar from "./navbar.home.component";
 const Home = () => {
-  const { setCurrentUser }: any = useContext(UserContext);
-  const signOutHandler = async () => {
-    await signOutUser();
-    setCurrentUser(null);
-  };
   return (
     <>
-      <div className="h-full flex flex-col justify-center items-center">
-        <div>HOME</div>
-        <button className="bg-red-400" onClick={signOutHandler}>
-          LOGOUT
-        </button>
+      <div className="home-page h-full flex flex-col-reverse laptop:flex-row">
+        <div className="nav-bar laptop:w-1/12 laptop:h-full">
+          <NavBar />
+        </div>
       </div>
     </>
   );

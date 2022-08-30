@@ -1,10 +1,4 @@
-import {
-  createContext,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useState,
-} from "react";
+import { createContext, ReactNode, useState } from "react";
 
 interface IUserContext {
   currentUser: null;
@@ -13,7 +7,7 @@ interface IUserContext {
 
 export const UserContext = createContext<IUserContext>({
   currentUser: null,
-  setCurrentUser: () => {},
+  setCurrentUser: (currentUser) => {},
 });
 interface Props {
   children?: ReactNode;

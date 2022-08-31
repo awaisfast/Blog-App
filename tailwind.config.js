@@ -8,7 +8,7 @@ module.exports = {
       },
       backgroundImage: {
         authbackground: "url('/src/assets/bg-img.jpg')",
-        "login-background": "url('/src/assets/bg-img.jpg')",
+        backArrow: "url('/src/assets/backArrow.jpg')",
       },
       fontFamily: {
         serif: "DM Serif Display",
@@ -17,6 +17,7 @@ module.exports = {
       colors: {
         primary: "#56CC6A",
         darkgrey: "#272727",
+        lightgrey: "#A5A5A5",
       },
     },
     screens: {

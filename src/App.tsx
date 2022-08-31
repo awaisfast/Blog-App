@@ -3,6 +3,7 @@ import LogIn from "./components/log-in-form/log-in-form.component";
 import Home from "./components/home/home.component";
 import { Routes, Route } from "react-router-dom";
 import PrivateRoutes from "./utils/firebase/private-routes.utils";
+import BlogPost from "./components/blog-post/blog-post.component";
 const App = () => {
   const loggedIn = window.localStorage.getItem("isLoggedIn");
 
@@ -16,6 +17,7 @@ const App = () => {
           element={loggedIn === "true" ? <Home /> : <LogIn />}
         ></Route>
       </Route>
+      <Route path="/blog-post" element={<BlogPost />}></Route>
     </Routes>
   );
 };

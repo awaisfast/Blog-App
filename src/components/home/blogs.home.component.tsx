@@ -6,7 +6,7 @@ const BlogsContent = () => {
     <div className="home-contents h-full w-5/6 m-auto flex flex-col laptop:ml-25 laptop:w-4/5">
       <div className="latest flex flex-col items-center tablet:items-start">
         <hr className="bg-primary mt-10 h-1 w-5"></hr>
-        <h1 className="font-light text-xl leading-6 text-darkgrey font-lexend">
+        <h1 className="font-light text-2xl leading-8 text-darkgrey font-lexend">
           Latest
         </h1>
       </div>

@@ -67,7 +67,7 @@ const NavBar = () => {
               icon={faMagnifyingGlass}
             />
             <h1 className="ml-3 hidden font-normal text-base leading-5 text-white font-lexend tablet:block laptop:ml-0">
-              search
+              Search
             </h1>
           </div>
 
@@ -77,7 +77,7 @@ const NavBar = () => {
               icon={faPlus}
             />
             <h1 className="ml-3 hidden font-normal text-base leading-5 text-white font-lexend tablet:block laptop:ml-0">
-              create
+              Create
             </h1>
           </div>
           <button onClick={signOutHandler} className="laptop:block ">

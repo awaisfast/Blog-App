@@ -9,7 +9,7 @@ import WelcomeContent from "../login-signup/welcome.component";
 import CheckEmail from "../../utils/validation/email.validation.component";
 import CheckPassword from "../../utils/validation/password.validation.component";
 import CheckAllEnteries from "../../utils/validation/all-enteries.validation.component";
-import { User, UserCredential } from "firebase/auth";
+import { UserCredential } from "firebase/auth";
 const LogIn = () => {
   type defaultForms = {
     email: string;

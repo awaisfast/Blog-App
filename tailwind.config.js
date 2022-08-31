@@ -8,7 +8,7 @@ module.exports = {
       },
       backgroundImage: {
         authbackground: "url('/src/assets/bg-img.jpg')",
-        backArrow: "url('/src/assets/backArrow.jpg')",
+        backArrow: "url('/src/assets/back-arrow.jpg')",
       },
       fontFamily: {
         serif: "DM Serif Display",

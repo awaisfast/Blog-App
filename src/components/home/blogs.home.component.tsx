@@ -1,13 +1,18 @@
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Contents from "./data.json";
 const BlogsContent = () => {
   const navigate = useNavigate();
-  const blogPost = () => {
-    navigate("/blog-post", { state: { id: 1, name: "sabaoon" } });
-  };
+  interface IData {
+    id: number;
+    title: string;
+    date: string;
+    username: string;
+    content: string;
+  }
+
   return (
     <div className="home-contents h-full w-5/6 m-auto flex flex-col laptop:ml-20 laptop:w-4/5">
-      <div className="latest flex flex-col items-center tablet:justify-start tablet:items-start">
+      <div className="latest flex flex-col items-center tablet:items-start">
         <hr className="bg-primary mt-10 h-1 w-5"></hr>
         <h1 className="font-light text-xl leading-6 text-darkgrey font-lexend">
           Latest
@@ -20,7 +25,15 @@ const BlogsContent = () => {
               <h1 className="date hidden font-semibold text-2xl leading-7 not-italic font-lexend tablet:block">
                 {data.date}
               </h1>
-              <h1 className="title mt-3 font-medium font-serif text-2xl leading-8 not-italic text-primary tablet:text-4xl">
+
+              <h1
+                className="title mt-3 font-medium font-serif text-2xl leading-8 not-italic text-primary tablet:text-4xl cursor-pointer"
+                onClick={() => {
+                  navigate("/blog-post", {
+                    state: { blogData: { data } },
+                  });
+                }}
+              >
                 {data.title}
               </h1>
               <br />

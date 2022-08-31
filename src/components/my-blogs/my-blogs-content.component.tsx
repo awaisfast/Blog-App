@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import Contents from "./data.json";
-const BlogsContent = () => {
+import Contents from "../home/data.json";
+const MyBlogsContent = () => {
   const navigate = useNavigate();
   return (
     <div className="home-contents h-full w-5/6 m-auto flex flex-col laptop:ml-25 laptop:w-4/5">
       <div className="latest flex flex-col items-center tablet:items-start">
         <hr className="bg-primary mt-10 h-1 w-5"></hr>
-        <h1 className="font-light text-xl leading-6 text-darkgrey font-lexend">
-          Latest
+        <h1 className="font-light text-2xl leading-8 text-darkgrey font-lexend">
+          My Blogs
         </h1>
       </div>
       <div className="blogs flex flex-col">
@@ -60,4 +60,4 @@ const BlogsContent = () => {
     </div>
   );
 };
-export default BlogsContent;
+export default MyBlogsContent;

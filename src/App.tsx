@@ -4,6 +4,7 @@ import Home from "./components/home/home.component";
 import { Routes, Route } from "react-router-dom";
 import PrivateRoutes from "./utils/firebase/private-routes.utils";
 import BlogPost from "./components/blog-post/blog-post.component";
+import MyBlogs from "./components/my-blogs/my-blog.component";
 const App = () => {
   const loggedIn = window.localStorage.getItem("isLoggedIn");
 
@@ -16,8 +17,9 @@ const App = () => {
           path="/"
           element={loggedIn === "true" ? <Home /> : <LogIn />}
         ></Route>
+        <Route path="/blog-post" element={<BlogPost />}></Route>
+        <Route path="/my-blogs" element={<MyBlogs />}></Route>
       </Route>
-      <Route path="/blog-post" element={<BlogPost />}></Route>
     </Routes>
   );
 };

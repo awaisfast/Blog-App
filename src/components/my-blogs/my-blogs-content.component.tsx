@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/user.context";
@@ -13,6 +15,7 @@ const MyBlogsContent = () => {
     setCurrentUser: (currentUser: null) => void;
   }
   interface IBlogObj {
+    id: string;
     title: string;
     content: string;
     uid: string | null;
@@ -57,15 +60,15 @@ const MyBlogsContent = () => {
         </h1>
       </div>
       <div className="blogs flex flex-col">
-        {userBlogs ? (
-          userBlogs.map((data: IBlogObj, index: any) => {
+        {userBlogs.length > 0 &&
+          userBlogs.map((data: IBlogObj) => {
             return (
-              <div key={index} className="blog my-5">
+              <div key={data.id} className="blog my-5">
                 <h1 className="date hidden font-semibold text-2xl leading-7 not-italic font-lexend tablet:block">
                   {data.date}
                 </h1>
                 <h1
-                  className="title mt-3 font-medium font-serif text-2xl leading-8 not-italic text-primary tablet:text-4xl cursor-pointer"
+                  className="title w-fit mt-3 font-medium font-serif text-2xl leading-8 not-italic text-primary tablet:text-4xl cursor-pointer"
                   onClick={() => {
                     navigate("/blog-post", {
                       state: { blogData: { data } },
@@ -100,10 +103,32 @@ const MyBlogsContent = () => {
                     {data.username}
                   </h1>
                 </div>
+                <div className="edit-del mt-5 flex justify-end w-full">
+                  <div className="flex justify-between w-1/4 laptop:w-1/6">
+                    <div className="edit-icon flex flex-row justify-center items-center cursor-pointer hover:opacity-50">
+                      <FontAwesomeIcon
+                        className="text-2xl text-primary tablet:text-3xl"
+                        icon={faPenToSquare}
+                      />
+                    </div>
+                    <div
+                      className="delete-icon flex flex-row justify-center items-center cursor-pointer hover:opacity-50"
+                      onClick={async () => {
+                        await BlogDataServices.deleteBlog(data.id);
+                        window.location.reload();
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        className="text-2xl text-primary tablet:text-3xl"
+                        icon={faTrashCan}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             );
-          })
-        ) : (
+          })}
+        {userBlogs.length === 0 && (
           <div className="empty flex justify-center items-center">
             <h1>You have no blogs to show 😔</h1>
           </div>

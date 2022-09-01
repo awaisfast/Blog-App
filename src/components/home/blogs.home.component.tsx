@@ -31,7 +31,7 @@ const BlogsContent = () => {
                   {data.date}
                 </h1>
                 <h1
-                  className="title mt-3 font-medium font-serif text-2xl leading-8 not-italic text-primary tablet:text-4xl cursor-pointer"
+                  className="title w-fit mt-3 font-medium font-serif text-2xl leading-8 not-italic text-primary tablet:text-4xl cursor-pointer"
                   onClick={() => {
                     navigate("/blog-post", {
                       state: { blogData: { data } },

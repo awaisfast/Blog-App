@@ -5,13 +5,15 @@ import {
   faPlus,
   faHome,
 } from "@fortawesome/free-solid-svg-icons";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../context/user.context";
 import { signOutUser } from "../../utils/firebase/firebase.utils";
 import { useNavigate } from "react-router-dom";
+import NewBlog from "../new-blog/new-blog.component";
 
 const NavBar = () => {
   const { setCurrentUser, currentUser }: any = useContext(UserContext);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   let userInitital;
   let displayName;
 
@@ -29,12 +31,14 @@ const NavBar = () => {
   const navigateToHome = () => {
     navigate("/");
   };
-  const navigateToCreateBlog = () => {
-    navigate("/new-blog");
-  };
+
   const navigate = useNavigate();
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
   return (
     <>
+      <NewBlog modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} />
       <div className="nav drop-shadow-navshadow bg-darkgrey h-20 flex flex-row justify-between items-center laptop:flex-col laptop:h-full">
         <div className="nav-buttons h-full w-5/6 m-auto flex justify-between items-center text-white laptop:flex-col laptop:w-2/5 laptop:justify-around laptop:m-0 laptop:mx-0">
           <div className="userName flex justify-center items-center">
@@ -76,7 +80,7 @@ const NavBar = () => {
 
           <div
             className="create-blog flex flex-row justify-center items-center cursor-pointer laptop:flex-col"
-            onClick={navigateToCreateBlog}
+            onClick={openModal}
           >
             <FontAwesomeIcon
               className="text-2xl text-primary tablet:text-3xl"

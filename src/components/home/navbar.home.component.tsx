@@ -29,6 +29,9 @@ const NavBar = () => {
   const navigateToHome = () => {
     navigate("/");
   };
+  const navigateToCreateBlog = () => {
+    navigate("/new-blog");
+  };
   const navigate = useNavigate();
   return (
     <>
@@ -71,7 +74,10 @@ const NavBar = () => {
             </h1>
           </div>
 
-          <div className="create-blog flex flex-row justify-center items-center laptop:flex-col">
+          <div
+            className="create-blog flex flex-row justify-center items-center cursor-pointer laptop:flex-col"
+            onClick={navigateToCreateBlog}
+          >
             <FontAwesomeIcon
               className="text-2xl text-primary tablet:text-3xl"
               icon={faPlus}

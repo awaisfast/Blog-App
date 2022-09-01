@@ -62,7 +62,8 @@ const SignUp = () => {
           await createAuthUserWithEmailAndPassword(email, password, name);
         if (res) {
           const { user } = res;
-          await createUserDocumentFromAuth(user, { name });
+          const username = email.split("@")[0];
+          await createUserDocumentFromAuth(user, { name, username });
           user ? navigate("/log-in") : navigate("/");
         }
       } catch (error: unknown) {

@@ -156,14 +156,14 @@ const AddEditBlog = ({
             backgroundColor: "rgba(0, 0, 0, 0.75)",
           },
           content: {
-            width: "60%",
+            width: "50%",
             height: "70%",
             margin: "auto",
           },
         }}
       >
         <div className="new-blog h-full w-full m-auto flex flex-col">
-          <div className="header flex justify-between items-center w-5/6 m-auto">
+          <div className="header flex justify-between items-center w-11/12 m-auto">
             <div className="new-blog">
               <hr className="bg-primary mt-10 h-2 w-10"></hr>
               <h1 className="text-4xl">{headerTitle}</h1>
@@ -175,7 +175,7 @@ const AddEditBlog = ({
               />
             </div>
           </div>
-          <div className="body w-5/6 mt-5 m-auto h-full">
+          <div className="body w-11/12 mt-5 m-auto h-full">
             <form
               className="form-field flex flex-col h-full"
               onSubmit={handleSubmit}

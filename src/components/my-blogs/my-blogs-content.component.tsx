@@ -117,8 +117,8 @@ const MyBlogsContent = () => {
                       {data.username}
                     </h1>
                   </div>
-                  <div className="edit-del mt-5 flex justify-end w-full">
-                    <div className="flex justify-between w-1/4 laptop:w-1/6">
+                  <div className="edit-del mt-3 flex justify-end w-full">
+                    <div className="flex justify-between w-1/4 laptop:w-1/12">
                       <div
                         className="edit-icon flex flex-row justify-center items-center cursor-pointer hover:opacity-50"
                         onClick={() => {

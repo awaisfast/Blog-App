@@ -11,7 +11,7 @@ import { signOutUser } from "../../utils/firebase/firebase.utils";
 import { useNavigate } from "react-router-dom";
 import AddEditBlog from "../modals/add-edit-blog.modal.component";
 
-const NavBar = () => {
+const TaskBar = () => {
   const { setCurrentUser, currentUser }: any = useContext(UserContext);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   let userInitital;
@@ -121,4 +121,4 @@ const NavBar = () => {
     </>
   );
 };
-export default NavBar;
+export default TaskBar;

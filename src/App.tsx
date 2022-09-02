@@ -5,7 +5,6 @@ import { Routes, Route } from "react-router-dom";
 import PrivateRoutes from "./utils/firebase/private-routes.utils";
 import BlogPost from "./components/blog-post/blog-post.component";
 import MyBlogs from "./components/my-blogs/my-blog.component";
-import NewBlog from "./components/new-blog/new-blog.component";
 const App = () => {
   const loggedIn = window.localStorage.getItem("isLoggedIn");
 

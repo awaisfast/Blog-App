@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
-import { Dispatch, useContext, useState } from "react";
+import { Dispatch, useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/user.context";
 import CheckAllEnteries from "../../utils/validation/all-enteries.validation.component";
 import CheckEntry from "../../utils/validation/title.validation.component";
@@ -8,17 +8,15 @@ import Modal from "react-modal";
 import BlogDataServices from "../services/crud-blog.component";
 import React from "react";
 
-const NewBlog = ({
+const AddEditBlog = ({
   modalIsOpen,
   setModalIsOpen,
+  oldBlogId,
 }: {
   modalIsOpen: boolean;
   setModalIsOpen: Dispatch<React.SetStateAction<boolean>>;
+  oldBlogId: string;
 }) => {
-  type defaultForms = {
-    title: string;
-    content: string;
-  };
   interface ICurrentUser {
     uid: string;
     displayName: string;
@@ -36,12 +34,12 @@ const NewBlog = ({
     date: string;
   }
 
-  const defaultFormFields: defaultForms = {
-    title: "",
-    content: "",
-  };
-  const [formFields, setFormFields] = useState(defaultFormFields);
-  const { title, content } = formFields;
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [dateCreated, setDateCreated] = useState("");
+  const [headerTitle, setHeaderTitle] = useState("New Blog");
+  const [buttonTitle, setButtonTitle] = useState("PUBLISH");
+
   const { currentUser } = useContext<IUserContext>(UserContext);
   let isValid: boolean = false; //if all enteries are valid
 
@@ -68,11 +66,32 @@ const NewBlog = ({
     const dateOfCreation = dateof + " " + month + " " + yearof;
     return dateOfCreation;
   };
+  const setValues = (docSnapData: any) => {
+    setTitle(docSnapData.title);
+    setContent(docSnapData.content);
+    setDateCreated(docSnapData.date);
+    setHeaderTitle("Edit Blog");
+    setButtonTitle("EDIT");
+  };
+  const editHandler = async () => {
+    try {
+      const docSnap = await BlogDataServices.getBlog(oldBlogId);
+      const docSnapData = docSnap.data();
+      setValues(docSnapData);
+    } catch (error) {
+      console.log("Could not get blog data");
+    }
+  };
+  useEffect(() => {
+    if (oldBlogId !== undefined && oldBlogId.length !== 0) {
+      editHandler();
+    }
+  }, [oldBlogId]);
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    if (formFields) {
-      const date = getDate();
+    if (title && content) {
+      const date = dateCreated ? dateCreated : getDate();
       const uid = currentUser && currentUser.uid;
       const username = currentUser && currentUser.email.split("@")[0];
       const newBlogObj: IBlogObj = {
@@ -83,25 +102,26 @@ const NewBlog = ({
         date,
       };
       try {
-        await BlogDataServices.addBlog(newBlogObj);
+        oldBlogId
+          ? await BlogDataServices.updateBlog(oldBlogId, newBlogObj)
+          : await BlogDataServices.addBlog(newBlogObj);
         setModalIsOpen(false);
         window.location.reload();
       } catch (error) {
         console.log("blog not added successfully");
       }
     }
-    setFormFields(defaultFormFields);
+    setTitle("");
+    setContent("");
+    setHeaderTitle("New Blog");
   };
   const handleChange = (event: { target: { name: string; value: string } }) => {
     const { name, value } = event.target;
+    name === "title" ? setTitle(value) : setContent(value);
 
-    setFormFields({ ...formFields, [name]: value });
     //to check on which input green borden needs to be implemented
-    if (name === "title") {
-      titleBorder(value);
-    } else if (name === "content") {
-      contentBorder(value);
-    }
+    name === "title" ? titleBorder(value) : contentBorder(value);
+
     checkEnteries(); //checking if all enteries are valid
   };
   const checkEnteries = () => {
@@ -137,7 +157,7 @@ const NewBlog = ({
           },
           content: {
             width: "60%",
-            height: "80%",
+            height: "70%",
             margin: "auto",
           },
         }}
@@ -146,7 +166,7 @@ const NewBlog = ({
           <div className="header flex justify-between items-center w-5/6 m-auto">
             <div className="new-blog">
               <hr className="bg-primary mt-10 h-2 w-10"></hr>
-              <h1 className="text-4xl">New Blog</h1>
+              <h1 className="text-4xl">{headerTitle}</h1>
             </div>
             <div className="close-button pt-10" onClick={closeModal}>
               <FontAwesomeIcon
@@ -155,7 +175,7 @@ const NewBlog = ({
               />
             </div>
           </div>
-          <div className="body w-5/6 m-auto h-full">
+          <div className="body w-5/6 mt-5 m-auto h-full">
             <form
               className="form-field flex flex-col h-full"
               onSubmit={handleSubmit}
@@ -178,13 +198,15 @@ const NewBlog = ({
                 required
               ></textarea>
 
-              <button
-                className="submit-button max-w-screen-sm mt-5 py-5 w-full bg-primary opacity-30 text-white font-semibold text-2xl not-italic tablet:w-1/3"
-                type="submit"
-                disabled={true}
-              >
-                PUBLISH
-              </button>
+              <div className="flex justify-end">
+                <button
+                  className="submit-button max-w-screen-sm mt-5 py-5 w-full bg-primary opacity-30 text-white font-semibold text-2xl not-italic laptop:w-1/4"
+                  type="submit"
+                  disabled={true}
+                >
+                  {buttonTitle}
+                </button>
+              </div>
             </form>
           </div>
         </div>
@@ -192,4 +214,4 @@ const NewBlog = ({
     </div>
   );
 };
-export default NewBlog;
+export default AddEditBlog;

@@ -7,7 +7,6 @@ import {
   updateDoc,
   deleteDoc,
   doc,
-  AddPrefixToKeys,
 } from "firebase/firestore";
 interface IBlogObj {
   title: string;
@@ -21,7 +20,7 @@ class BlogDataServices {
   addBlog = (newBlog: IBlogObj) => {
     return addDoc(blogCollectionRef, newBlog);
   };
-  updateBlog = (id: string, updateBlog: AddPrefixToKeys<string, any>) => {
+  updateBlog = (id: string, updateBlog: any) => {
     const blogDoc = doc(db, "blogs", id);
     return updateDoc(blogDoc, updateBlog);
   };

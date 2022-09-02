@@ -9,7 +9,7 @@ import { useContext, useState } from "react";
 import { UserContext } from "../../context/user.context";
 import { signOutUser } from "../../utils/firebase/firebase.utils";
 import { useNavigate } from "react-router-dom";
-import NewBlog from "../new-blog/new-blog.component";
+import AddEditBlog from "../modals/add-edit-blog.modal.component";
 
 const NavBar = () => {
   const { setCurrentUser, currentUser }: any = useContext(UserContext);
@@ -38,7 +38,11 @@ const NavBar = () => {
   };
   return (
     <>
-      <NewBlog modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} />
+      <AddEditBlog
+        modalIsOpen={modalIsOpen}
+        setModalIsOpen={setModalIsOpen}
+        oldBlogId=""
+      />
       <div className="nav drop-shadow-navshadow bg-darkgrey h-20 flex flex-row justify-between items-center laptop:flex-col laptop:h-full">
         <div className="nav-buttons h-full w-5/6 m-auto flex justify-between items-center text-white laptop:flex-col laptop:w-2/5 laptop:justify-around laptop:m-0 laptop:mx-0">
           <div className="userName flex justify-center items-center">

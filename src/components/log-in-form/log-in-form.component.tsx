@@ -43,6 +43,7 @@ const LogIn = () => {
       window.localStorage.setItem("isLoggedIn", "true");
       window.localStorage.setItem("userContext", JSON.stringify(user));
       user ? navigate("/") : navigate("/log-in");
+      window.location.reload();
     } catch (error: any) {
       switch (error.code) {
         case "auth/wrong-password":
@@ -103,11 +104,11 @@ const LogIn = () => {
     <>
       <div className="signUp-page h-full flex">
         <ImageBackground props={"Login"} />
-        <div className="signUp-content w-full flex flex-col laptop:w-3/5">
-          <div className="w-9/12 m-auto">
+        <div className="logIn-content w-full flex flex-col laptop:w-3/5">
+          <div className="w-10/12 m-auto laptop:w-9/12 tablet:pt-20">
             <WelcomeContent content={"log you in"} />
 
-            <div className="inputs mt-5">
+            <div className="inputs mt-8">
               <form
                 className="form-field flex flex-col"
                 onSubmit={handleSubmit}
@@ -131,7 +132,7 @@ const LogIn = () => {
                   required
                 />
                 <button
-                  className="submit-button mt-5 pt-5 pb-5 w-1/1 bg-darkgrey text-white opacity-30 font-semibold text-xl not-italic tablet:w-2/6"
+                  className="submit-button font-lexend mt-5 py-3 w-1/1 bg-darkgrey text-white opacity-30 font-semibold text-xl not-italic tablet:w-2/6 tablet:py-4"
                   type="submit"
                   disabled={true}
                 >
@@ -139,7 +140,7 @@ const LogIn = () => {
                 </button>
               </form>
             </div>
-            <div className="mt-10">
+            <div className="mt-10 font-lexend flex justify-center tablet:justify-start">
               <Footer
                 msg={"Don't have an account?"}
                 to={"/sign-up"}
@@ -157,7 +158,7 @@ const LogIn = () => {
                 <Alert props="Enter valid Email Address." />
               </div>
               <div className="pass-alert hidden">
-                <Alert props="Password must be atleast 6 characters long." />
+                <Alert props="Password format incorrect." />
               </div>
             </div>
           </div>

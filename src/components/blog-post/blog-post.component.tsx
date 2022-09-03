@@ -15,6 +15,11 @@ const BlogPost = () => {
   const { state } = useLocation();
   const { blogData } = state as ILocationState;
   const { data } = blogData;
+  const { date } = data;
+  const dateNum = date.split(" ")[0];
+  const dateMonth = date.split(" ")[1].toLowerCase();
+  const dateYear = date.split(" ")[2];
+  data.date = dateNum + " " + dateMonth + " " + dateYear;
 
   return (
     <div className="blog-post h-full ">
@@ -24,21 +29,20 @@ const BlogPost = () => {
             <h1 className="font-normal text-2xl leading-8 text-darkgrey font-serif">
               Back
             </h1>
-            {/* <div className="back-arrow bg-backArrow w-fit">awa</div> */}
           </a>
         </div>
         <div className="blog-content mt-20 flex flex-col justify-center tablet:w-5/6 tablet:mt-0">
           <div className="blog w-4/5 m-auto tablet:m-0">
-            <div className="title">
+            <div className="title laptop:ml-5">
               <h1 className="font-serif text-4xl text-primary font-light tablet:text-5xl">
                 {data.title}
               </h1>
             </div>
-            <div className="author-date font-lexend mt-5 text-lightgrey font-thin text-2xl leading-6">
-              <h1 className="mb-3">writter by {data.username}</h1>
-              <h1>{data.date}</h1>
+            <div className="author-date font-lexend mt-5 text-lightgrey font-thin text-2xl leading-6 laptop:ml-5">
+              <h1 className="mb-3">writter by @{data.username}</h1>
+              <h1>on {data.date}</h1>
             </div>
-            <div className="content mt-20">
+            <div className="content mt-10">
               <p className="font-lexend font-normal text-xl first-letter:text-7xl leading-normal tablet:text-2xl">
                 {data.content}
               </p>

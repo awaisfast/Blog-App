@@ -7,7 +7,7 @@ interface Content {
 }
 const Footer = ({ msg, to, link }: Content) => {
   return (
-    <span className="font-normal text-xl leading-6 not-italic text-darkgrey">
+    <span className="font-lexend text-xl leading-6 not-italic text-darkgrey">
       {msg}
       <Link className="authentication-link ml-1 text-primary" to={to}>
         {link}

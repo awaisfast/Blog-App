@@ -134,9 +134,9 @@ const SignUp = () => {
       <div className="signUp-Page h-full flex">
         <ImageBackground props={"Sign Up"} />
         <div className="signUp-Content w-full flex flex-col laptop:w-3/5">
-          <div className="w-9/12 m-auto">
+          <div className="w-10/12 m-auto laptop:w-9/12">
             <WelcomeContent content={"sign you up"} />
-            <div className="inputs mt-5">
+            <div className="inputs mt-8">
               <form
                 className="form-field flex flex-col"
                 onSubmit={handleSubmit}
@@ -181,7 +181,7 @@ const SignUp = () => {
                   required
                 />
                 <button
-                  className="submit-button max-w-screen-sm mt-5 pt-5 pb-5 w-1/1 bg-darkgrey text-white opacity-30 font-semibold text-xl not-italic tablet:w-2/6"
+                  className="submit-button font-lexend max-w-screen-sm mt-5 pt-5 pb-3 w-1/1 bg-darkgrey text-white opacity-30 font-semibold text-xl not-italic tablet:w-2/6 tablet:py-4"
                   type="submit"
                   disabled={true}
                 >
@@ -189,11 +189,11 @@ const SignUp = () => {
                 </button>
               </form>
             </div>
-            <div className="mt-10">
+            <div className="mt-10 font-lexend">
               <Footer
                 msg={"Already have an account?"}
                 to={"/log-in"}
-                link={"log-in"}
+                link={"Log-in"}
               />
             </div>
             <div className="alerts mt-3">
@@ -204,7 +204,7 @@ const SignUp = () => {
                 <Alert props="Enter valid Email Address." />
               </div>
               <div className="pass-alert mt-5 hidden">
-                <Alert props="Password must be atleast 6 characters long." />
+                <Alert props="Password format incorrect." />
               </div>
               <div className="cpw-alert mt-5 hidden">
                 <Alert props="Passwords do not match." />

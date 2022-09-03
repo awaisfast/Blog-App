@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { Dispatch, useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/user.context";
+import { useMediaQuery } from "@mui/material";
 import CheckAllEnteries from "../../utils/validation/all-enteries.validation.component";
 import CheckEntry from "../../utils/validation/title.validation.component";
 import Modal from "react-modal";
@@ -42,6 +43,8 @@ const AddEditBlog = ({
 
   const { currentUser } = useContext<IUserContext>(UserContext);
   let isValid: boolean = false; //if all enteries are valid
+
+  const laptop = useMediaQuery("(min-width:1024px)");
 
   const getDate = () => {
     const date = new Date();
@@ -156,8 +159,8 @@ const AddEditBlog = ({
             backgroundColor: "rgba(0, 0, 0, 0.75)",
           },
           content: {
-            width: "50%",
-            height: "70%",
+            width: laptop ? "50%" : "80%",
+            height: laptop ? "70%" : "60%",
             margin: "auto",
           },
         }}
@@ -166,11 +169,11 @@ const AddEditBlog = ({
           <div className="header flex justify-between items-center w-11/12 m-auto">
             <div className="new-blog">
               <hr className="bg-primary mt-10 h-2 w-10"></hr>
-              <h1 className="text-4xl">{headerTitle}</h1>
+              <h1 className="text-2xl tablet:text-4xl">{headerTitle}</h1>
             </div>
             <div className="close-button pt-10" onClick={closeModal}>
               <FontAwesomeIcon
-                className="text-primary text-2xl cursor-pointer hover:opacity-50"
+                className="text-primary text-xl cursor-pointer hover:opacity-50 tablet:text-2xl"
                 icon={faCircleXmark}
               />
             </div>
@@ -190,7 +193,7 @@ const AddEditBlog = ({
                 required
               />
               <textarea
-                className="content-input resize-none overflow-hidden p-5 h-3/5 border-solid border-2 border-gray-300 rounded-none outline-none text-gray-500"
+                className="content-input resize-none overflow-hidden p-5 h-3/5 border-solid border-2 border-gray-300 rounded-none outline-none overflow-y-auto text-gray-500"
                 name="content"
                 placeholder="Content"
                 value={content}
@@ -200,7 +203,7 @@ const AddEditBlog = ({
 
               <div className="flex justify-end">
                 <button
-                  className="submit-button max-w-screen-sm mt-5 py-5 w-full bg-primary opacity-30 text-white font-semibold text-2xl not-italic laptop:w-1/4"
+                  className="submit-button max-w-screen-sm mt-5 py-3 w-full bg-primary opacity-30 text-white font-semibold text-xl not-italic tablet:w-1/4 tablet:py-5 tablet:text-2xl"
                   type="submit"
                   disabled={true}
                 >

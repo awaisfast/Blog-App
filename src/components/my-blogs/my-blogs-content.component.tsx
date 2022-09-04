@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/user.context";
 import BlogDataServices from "../services/crud-blog.component";
 import AddEditBlog from "../modals/add-edit-blog.modal.component";
+import Deletion from "../modals/confirm-del.modal.component";
 const MyBlogsContent = ({
   searchIsOpen,
   setSearchIsOpen,
@@ -36,8 +37,10 @@ const MyBlogsContent = ({
   const [userBlogs, setUserBlogs] = useState([]);
   const { currentUser } = useContext<IUserContext>(UserContext);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [confirmIsOpen, setConfirmIsOpen] = useState(false);
   const [oldBlogId, setOldBlogId] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [delBlogId, setDelBlogId] = useState("");
 
   let dataDocs;
   let myBlogs: any = [];
@@ -87,6 +90,12 @@ const MyBlogsContent = ({
         setModalIsOpen={setModalIsOpen}
         setLoaderIsOpen={setLoaderIsOpen}
         oldBlogId={oldBlogId}
+      />
+      <Deletion
+        confirmIsOpen={confirmIsOpen}
+        setConfirmIsOpen={setConfirmIsOpen}
+        setLoaderIsOpen={setLoaderIsOpen}
+        delBlogId={delBlogId}
       />
       <div className="home-contents h-full w-5/6 m-auto flex flex-col laptop:ml-25 laptop:w-4/5">
         <div className="my-blogs flex flex-col-reverse items-center tablet:items-start tablet:flex-row">
@@ -197,10 +206,13 @@ const MyBlogsContent = ({
                         <div
                           className="delete-icon flex flex-row justify-center items-center cursor-pointer hover:opacity-50"
                           onClick={async () => {
-                            setLoaderIsOpen(true);
-                            await BlogDataServices.deleteBlog(data.id);
-                            setLoaderIsOpen(false);
-                            window.location.reload();
+                            setConfirmIsOpen(true);
+                            setDelBlogId(data.id);
+                            // setLoaderIsOpen(true);
+                            // //confirm value from confirmModal
+                            // await BlogDataServices.deleteBlog(data.id);
+                            // setLoaderIsOpen(false);
+                            // window.location.reload();
                           }}
                         >
                           <FontAwesomeIcon

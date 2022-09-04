@@ -8,6 +8,7 @@ import CheckEntry from "../../utils/validation/title.validation.component";
 import Modal from "react-modal";
 import BlogDataServices from "../services/crud-blog.component";
 import React from "react";
+import Deletion from "./confirm-del.modal.component";
 
 const AddEditBlog = ({
   modalIsOpen,

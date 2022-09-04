@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   createAuthUserWithEmailAndPassword,
@@ -18,7 +18,11 @@ import CheckName from "../../utils/validation/name.validation.component";
 import CheckConfirmPassword from "../../utils/validation/confirm-password.validation.component";
 import CheckAllEnteries from "../../utils/validation/all-enteries.validation.component";
 
-const SignUp = () => {
+const SignUp = ({
+  setLoaderIsOpen,
+}: {
+  setLoaderIsOpen: Dispatch<React.SetStateAction<boolean>>;
+}) => {
   type defaultForms = {
     name: string;
     email: string;
@@ -58,15 +62,21 @@ const SignUp = () => {
         return;
       }
       try {
+        setLoaderIsOpen(true);
         const res: UserCredential | undefined =
           await createAuthUserWithEmailAndPassword(email, password, name);
+        setLoaderIsOpen(false);
+
         if (res) {
           const { user } = res;
           const username = email.split("@")[0];
+          setLoaderIsOpen(true);
           await createUserDocumentFromAuth(user, { name, username });
+          setLoaderIsOpen(false);
           user ? navigate("/log-in") : navigate("/");
         }
       } catch (error: unknown) {
+        setLoaderIsOpen(false);
         if ((error as Error).code === "auth/email-already-in-use") {
           const usedEmailAlert = document.querySelector(
             ".used-email"

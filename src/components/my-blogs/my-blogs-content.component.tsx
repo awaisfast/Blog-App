@@ -8,9 +8,11 @@ import AddEditBlog from "../modals/add-edit-blog.modal.component";
 const MyBlogsContent = ({
   searchIsOpen,
   setSearchIsOpen,
+  setLoaderIsOpen,
 }: {
   searchIsOpen: boolean;
   setSearchIsOpen: Dispatch<React.SetStateAction<boolean>>;
+  setLoaderIsOpen: Dispatch<React.SetStateAction<boolean>>;
 }) => {
   interface ICurrentUser {
     uid: string;
@@ -64,7 +66,9 @@ const MyBlogsContent = ({
     setUserBlogs(myBlogs);
   };
   const getBlogs = async () => {
+    setLoaderIsOpen(true);
     const data: any = await BlogDataServices.getAllBlogs();
+    setLoaderIsOpen(false);
     dataDocs = data.docs;
     setBlogs(dataDocs.map((doc: any) => ({ ...doc.data(), id: doc.id })));
   };
@@ -81,9 +85,9 @@ const MyBlogsContent = ({
       <AddEditBlog
         modalIsOpen={modalIsOpen}
         setModalIsOpen={setModalIsOpen}
+        setLoaderIsOpen={setLoaderIsOpen}
         oldBlogId={oldBlogId}
       />
-
       <div className="home-contents h-full w-5/6 m-auto flex flex-col laptop:ml-25 laptop:w-4/5">
         <div className="my-blogs flex flex-col-reverse items-center tablet:items-start tablet:flex-row">
           <div className="header">
@@ -193,7 +197,9 @@ const MyBlogsContent = ({
                         <div
                           className="delete-icon flex flex-row justify-center items-center cursor-pointer hover:opacity-50"
                           onClick={async () => {
+                            setLoaderIsOpen(true);
                             await BlogDataServices.deleteBlog(data.id);
+                            setLoaderIsOpen(false);
                             window.location.reload();
                           }}
                         >

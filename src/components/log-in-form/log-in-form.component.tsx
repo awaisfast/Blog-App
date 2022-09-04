@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, Dispatch } from "react";
 import { useNavigate } from "react-router-dom";
 import { signInAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 import { UserContext } from "../../context/user.context";
@@ -10,7 +10,11 @@ import CheckEmail from "../../utils/validation/email.validation.component";
 import CheckPassword from "../../utils/validation/password.validation.component";
 import CheckAllEnteries from "../../utils/validation/all-enteries.validation.component";
 import { UserCredential } from "firebase/auth";
-const LogIn = () => {
+const LogIn = ({
+  setLoaderIsOpen,
+}: {
+  setLoaderIsOpen: Dispatch<React.SetStateAction<boolean>>;
+}) => {
   type defaultForms = {
     email: string;
     password: string;
@@ -35,8 +39,10 @@ const LogIn = () => {
     submitButton.disabled = true;
     submitButton.classList.add("opacity-30");
     try {
+      setLoaderIsOpen(true);
       const res: UserCredential | undefined =
         await signInAuthUserWithEmailAndPassword(email, password);
+      setLoaderIsOpen(false);
       const { user }: any = res;
       setCurrentUser(user);
       setFormFields(defaultFormFields);
@@ -45,6 +51,7 @@ const LogIn = () => {
       user ? navigate("/") : navigate("/log-in");
       window.location.reload();
     } catch (error: any) {
+      setLoaderIsOpen(false);
       switch (error.code) {
         case "auth/wrong-password":
           const incorrect = document.querySelector(

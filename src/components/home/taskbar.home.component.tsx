@@ -14,9 +14,11 @@ import AddEditBlog from "../modals/add-edit-blog.modal.component";
 const TaskBar = ({
   searchIsOpen,
   setSearchIsOpen,
+  setLoaderIsOpen,
 }: {
   searchIsOpen: boolean;
   setSearchIsOpen: Dispatch<React.SetStateAction<boolean>>;
+  setLoaderIsOpen: Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { setCurrentUser, currentUser }: any = useContext(UserContext);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -34,9 +36,6 @@ const TaskBar = ({
     window.localStorage.setItem("isLoggedIn", "false");
     window.localStorage.setItem("userContext", "");
   };
-  const navigateToHome = () => {
-    navigate("/");
-  };
 
   const navigate = useNavigate();
   const openModal = () => {
@@ -47,6 +46,7 @@ const TaskBar = ({
       <AddEditBlog
         modalIsOpen={modalIsOpen}
         setModalIsOpen={setModalIsOpen}
+        setLoaderIsOpen={setLoaderIsOpen}
         oldBlogId=""
       />
       <div className="nav drop-shadow-navshadow bg-darkgrey h-20 flex flex-row justify-between items-center laptop:flex-col laptop:h-full">
@@ -115,16 +115,6 @@ const TaskBar = ({
             </div>
           </button>
         </div>
-        {/* <button onClick={signOutHandler} className="hidden laptop:block">
-          <div className="log-out">
-            <div className="symbol bg-primary flex justify-center items-center h-10 w-10 rounded-full laptop:h-16 laptop:w-16">
-              <h1 className=" font-normal text-xl leading-6 not-italic text-darkgrey laptop:text-3xl laptop:leading-10">
-                <FontAwesomeIcon icon={faArrowAltCircleLeft} />
-              </h1>
-            </div>
-            <h1 className="text-white hidden laptop:block">LOGOUT</h1>
-          </div>
-        </button> */}
       </div>
     </>
   );

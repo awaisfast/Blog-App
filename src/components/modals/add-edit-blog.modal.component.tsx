@@ -12,10 +12,12 @@ import React from "react";
 const AddEditBlog = ({
   modalIsOpen,
   setModalIsOpen,
+  setLoaderIsOpen,
   oldBlogId,
 }: {
   modalIsOpen: boolean;
   setModalIsOpen: Dispatch<React.SetStateAction<boolean>>;
+  setLoaderIsOpen: Dispatch<React.SetStateAction<boolean>>;
   oldBlogId: string;
 }) => {
   interface ICurrentUser {
@@ -78,10 +80,13 @@ const AddEditBlog = ({
   };
   const editHandler = async () => {
     try {
+      setLoaderIsOpen(true);
       const docSnap = await BlogDataServices.getBlog(oldBlogId);
+      setLoaderIsOpen(false);
       const docSnapData = docSnap.data();
       setValues(docSnapData);
     } catch (error) {
+      setLoaderIsOpen(false);
       console.log("Could not get blog data");
     }
   };
@@ -105,12 +110,16 @@ const AddEditBlog = ({
         date,
       };
       try {
+        setModalIsOpen(false);
+        setLoaderIsOpen(true);
         oldBlogId
           ? await BlogDataServices.updateBlog(oldBlogId, newBlogObj)
           : await BlogDataServices.addBlog(newBlogObj);
-        setModalIsOpen(false);
+        setLoaderIsOpen(false);
         window.location.reload();
       } catch (error) {
+        setModalIsOpen(false);
+        setLoaderIsOpen(false);
         console.log("blog not added successfully");
       }
     }

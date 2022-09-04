@@ -4,9 +4,11 @@ import { Dispatch, useEffect, useState } from "react";
 const BlogsContent = ({
   searchIsOpen,
   setSearchIsOpen,
+  setLoaderIsOpen,
 }: {
   searchIsOpen: boolean;
   setSearchIsOpen: Dispatch<React.SetStateAction<boolean>>;
+  setLoaderIsOpen: Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const navigate = useNavigate();
   const [blogs, setBlogs] = useState([]);
@@ -23,7 +25,9 @@ const BlogsContent = ({
   }, [searchIsOpen]);
 
   const getBlogs = async () => {
+    setLoaderIsOpen(true);
     const data: any = await BlogDataServices.getAllBlogs();
+    setLoaderIsOpen(false);
     dataDocs = data.docs;
     setBlogs(dataDocs.map((doc: any) => ({ ...doc.data(), id: doc.id })));
   };

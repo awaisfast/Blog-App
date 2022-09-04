@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 const BlogPost = () => {
   interface ILocationState {
     blogData: {
@@ -12,6 +12,7 @@ const BlogPost = () => {
       };
     };
   }
+  const navigate = useNavigate();
   const { state } = useLocation();
   const { blogData } = state as ILocationState;
   const { data } = blogData;
@@ -24,12 +25,15 @@ const BlogPost = () => {
   return (
     <div className="blog-post h-full ">
       <div className="page-content m-auto my-10 flex flex-col tablet:flex-row tablet:my-20">
-        <div className="page-back h-full w-4/5 m-auto flex tablet:justify-center tablet:w-1/6 tablet:m-0">
-          <a href="/" className="h-2">
-            <h1 className="font-normal text-2xl leading-8 text-darkgrey font-serif">
-              Back
-            </h1>
-          </a>
+        <div
+          className="page-back h-full w-4/5 m-auto flex tablet:justify-center cursor-pointer tablet:w-1/6 tablet:m-0"
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          <h1 className="font-normal h-2 text-2xl leading-8 text-darkgrey font-serif">
+            Back
+          </h1>
         </div>
         <div className="blog-content mt-20 flex flex-col justify-center tablet:w-5/6 tablet:mt-0">
           <div className="blog w-4/5 m-auto tablet:m-0">

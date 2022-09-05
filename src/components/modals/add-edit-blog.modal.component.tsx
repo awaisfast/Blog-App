@@ -36,6 +36,7 @@ const AddEditBlog = ({
     uid: string | null;
     username: string | null;
     date: string;
+    time: Date;
   }
 
   const [title, setTitle] = useState("");
@@ -65,7 +66,7 @@ const AddEditBlog = ({
       "NOV",
       "DEC",
     ];
-    const dateof = date.getDate().toString();
+    const dateof = date.getDate().toString().padStart(2, "0");
     const monthof = date.getMonth();
     const month = months[monthof];
     const yearof = date.getFullYear().toString();
@@ -103,12 +104,14 @@ const AddEditBlog = ({
       const date = dateCreated ? dateCreated : getDate();
       const uid = currentUser && currentUser.uid;
       const username = currentUser && currentUser.email.split("@")[0];
+      const time = new Date();
       const newBlogObj: IBlogObj = {
         title,
         content,
         uid,
         username,
         date,
+        time,
       };
       try {
         setModalIsOpen(false);

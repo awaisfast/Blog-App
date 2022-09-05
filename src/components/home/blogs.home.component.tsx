@@ -11,7 +11,7 @@ const BlogsContent = ({
   setLoaderIsOpen: Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const navigate = useNavigate();
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState<any>([]);
   const [searchTerm, setSearchTerm] = useState("");
   let dataDocs;
   useEffect(() => {
@@ -50,6 +50,7 @@ const BlogsContent = ({
             type="search"
             placeholder="search"
             onChange={searchHandleChange}
+            autoFocus
           />
           <button
             className="font-lexend mt-2 tablet:ml-2 tablet:mt-0"
@@ -65,6 +66,9 @@ const BlogsContent = ({
       <div className="blogs flex flex-col mt-0">
         {blogs ? (
           blogs
+            .sort((a: any, b: any) => {
+              return b.time.toDate().getTime() - a.time.toDate().getTime();
+            })
             .filter((data: any) => {
               if (searchTerm === "") {
                 return data;
@@ -92,7 +96,7 @@ const BlogsContent = ({
                   </h1>
                   <br />
                   <span
-                    className="content font-normal text-base leading-5 not-italic font-lexend cursor-pointer tablet:text-xl tablet:leading-6"
+                    className="content font-light text-base leading-5 not-italic font-lexend cursor-pointer tablet:text-xl tablet:leading-6"
                     onClick={() => {
                       navigate("/blog-post", {
                         state: { blogData: { data } },

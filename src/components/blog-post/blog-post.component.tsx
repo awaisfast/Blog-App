@@ -47,7 +47,7 @@ const BlogPost = () => {
               <h1>on {data.date}</h1>
             </div>
             <div className="content mt-10">
-              <p className="font-lexend font-normal text-xl first-letter:text-7xl leading-normal tablet:text-2xl">
+              <p className="font-lexend font-light text-xl first-letter:text-7xl leading-normal tablet:text-2xl">
                 {data.content}
               </p>
             </div>

@@ -31,6 +31,7 @@ const MyBlogsContent = ({
     uid: string | null;
     username: string | null;
     date: string;
+    time: Date;
   }
   const navigate = useNavigate();
   const [blogs, setBlogs] = useState([]);
@@ -138,6 +139,9 @@ const MyBlogsContent = ({
         <div className="blogs flex flex-col mt-0">
           {userBlogs.length > 0 &&
             userBlogs
+              .sort((a: any, b: any) => {
+                return b.time.toDate().getTime() - a.time.toDate().getTime();
+              })
               .filter((data: any) => {
                 if (searchTerm === "") {
                   return data;
@@ -164,8 +168,8 @@ const MyBlogsContent = ({
                       {data.title}
                     </h1>
                     <br />
-                    <span
-                      className="content font-normal text-base leading-5 not-italic font-lexend cursor-pointer tablet:text-xl tablet:leading-6"
+                    <h1
+                      className="content text-base leading-5 not-italic font-lexend font-light cursor-pointer tablet:text-xl tablet:leading-6"
                       onClick={() => {
                         navigate("/blog-post", {
                           state: { blogData: { data } },
@@ -180,7 +184,7 @@ const MyBlogsContent = ({
                           ...read more
                         </button>
                       )}
-                    </span>
+                    </h1>
                     <div className="userName mt-5 flex justify-between items-center">
                       <h1 className="date font-semibold text-base leading-5 not-italic font-lexend tablet:hidden">
                         {data.date}

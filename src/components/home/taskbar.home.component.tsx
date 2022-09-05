@@ -58,7 +58,7 @@ const TaskBar = ({
               </h1>
             </div>
             <div className="displayName font-normal text-xl leading-6 font-lexend ml-5 hidden tablet:block laptop:hidden">
-              <h1>{displayName}</h1>
+              <h1>{displayName.split(" ")[0]}</h1>
             </div>
           </div>
           <div

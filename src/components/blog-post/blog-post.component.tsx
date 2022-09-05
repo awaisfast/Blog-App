@@ -43,7 +43,7 @@ const BlogPost = () => {
               </h1>
             </div>
             <div className="author-date font-lexend mt-5 text-lightgrey font-thin text-2xl leading-6 laptop:ml-5">
-              <h1 className="mb-3">writter by @{data.username}</h1>
+              <h1 className="mb-3">written by @{data.username}</h1>
               <h1>on {data.date}</h1>
             </div>
             <div className="content mt-10">

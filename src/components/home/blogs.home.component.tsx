@@ -36,24 +36,24 @@ const BlogsContent = ({
     setSearchTerm(value);
   };
   return (
-    <div className="home-contents h-full w-5/6 m-auto flex flex-col laptop:ml-25 laptop:w-4/5">
-      <div className="latest flex flex-col items-center tablet:items-start">
+    <div className="home-contents h-full w-5/6 m-auto flex flex-col laptop:w-4/5">
+      <div className="latest flex flex-col items-start">
         <hr className="bg-primary mt-10 h-1 w-5"></hr>
         <h1 className="font-lexend font-light text-2xl leading-8 text-darkgrey">
           Latest
         </h1>
       </div>
       <div className="search-field mt-2 invisible w-full tablet:mt-0">
-        <div className="search flex w-3/5 m-auto flex-col tablet:flex-row tablet:w-full tablet:m-0 tablet:justify-center ">
+        <div className="search flex justify-center">
           <input
-            className="h-10 px-5 font-lexend rounded-full border-2 outline-none focus:outline-primary tablet:w-1/2"
+            className="h-10 px-5 w-3/4 font-lexend rounded-full border-2 outline-none focus:outline-primary tablet:w-1/2"
             type="search"
             placeholder="search"
             onChange={searchHandleChange}
             autoFocus
           />
           <button
-            className="font-lexend mt-2 tablet:ml-2 tablet:mt-0"
+            className="font-lexend mt-2 ml-2 tablet:mt-0"
             onClick={() => {
               setSearchIsOpen(false);
               setSearchTerm("");
@@ -80,7 +80,7 @@ const BlogsContent = ({
             })
             .map((data: any) => {
               return (
-                <div key={data.id} className="blog mb-5">
+                <div key={data.id} className="blog mb-10">
                   <h1 className="date hidden font-semibold text-2xl leading-7 not-italic font-lexend tablet:block">
                     {data.date.split(" ")[0]} {data.date.split(" ")[1]}
                   </h1>
@@ -108,7 +108,7 @@ const BlogsContent = ({
                       : data.content}{" "}
                     {data.content.length > 250 && (
                       <button
-                        className="read-more font-light text-xl leading-6 not-italic font-lexend text-primary"
+                        className="read-more font-light text-base leading-6 not-italic font-lexend text-primary tablet:text-xl"
                         onClick={() => {
                           navigate("/blog-post", {
                             state: { blogData: { data } },

@@ -199,29 +199,29 @@ const SignUp = ({
                 </button>
               </form>
             </div>
-            <div className="mt-10 font-lexend">
+            <div className="alerts mt-2 mb-12">
+              <div className="name-alert hidden">
+                <Alert props="Enter full name." />
+              </div>
+              <div className="email-alert hidden">
+                <Alert props="Enter valid Email Address." />
+              </div>
+              <div className="pass-alert hidden">
+                <Alert props="Password format incorrect." />
+              </div>
+              <div className="cpw-alert hidden">
+                <Alert props="Passwords do not match." />
+              </div>
+              <div className="used-email hidden">
+                <Alert props="Email already exists." />
+              </div>
+            </div>
+            <div className="mt-5 font-lexend">
               <Footer
                 msg={"Already have an account?"}
                 to={"/log-in"}
                 link={"Log-in"}
               />
-            </div>
-            <div className="alerts mt-3">
-              <div className="name-alert hidden">
-                <Alert props="Enter full name." />
-              </div>
-              <div className="email-alert mt-5 hidden">
-                <Alert props="Enter valid Email Address." />
-              </div>
-              <div className="pass-alert mt-5 hidden">
-                <Alert props="Password format incorrect." />
-              </div>
-              <div className="cpw-alert mt-5 hidden">
-                <Alert props="Passwords do not match." />
-              </div>
-              <div className="used-email mt-5 hidden">
-                <Alert props="Email already exists." />
-              </div>
             </div>
           </div>
         </div>

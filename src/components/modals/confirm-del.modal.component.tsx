@@ -2,6 +2,7 @@ import { Dispatch } from "react";
 import Modal from "react-modal";
 import { useMediaQuery } from "@mui/material";
 import BlogDataServices from "../services/crud-blog.component";
+import matchers from "@testing-library/jest-dom/matchers";
 
 const Deletion = ({
   confirmIsOpen,
@@ -14,7 +15,7 @@ const Deletion = ({
   setConfirmIsOpen: Dispatch<React.SetStateAction<boolean>>;
   delBlogId: string;
 }) => {
-  const laptop = useMediaQuery("(min-width:1024px)");
+  const tablet = useMediaQuery("(min-width:640px)");
   return (
     <>
       <Modal
@@ -24,20 +25,21 @@ const Deletion = ({
             backgroundColor: "rgba(0, 0, 0, 0.75)",
           },
           content: {
-            width: laptop ? "35%" : "50%",
-            height: laptop ? "40%" : "40%",
+            width: tablet ? "25%" : "80%",
+            height: tablet ? "20%" : "15%",
             margin: "auto",
           },
         }}
       >
         <div className="confirm-del h-full w-full m-auto font-lexend flex flex-col justify-center items-center tablet:w-2/3">
-          <div className="title text-xl tablet:text-3xl">
-            <h1>Are you sure?</h1>
+          <div className="title text-xl whitespace-nowrap tablet:text-2xl">
+            <hr className="bg-primary h-1 w-10"></hr>
+            <h1 className="text-lg">Are you sure, you want to delete?</h1>
           </div>
           <div className="buttons flex text-xl justify-around mt-5 tablet:flex-row tablet:text-2xl">
             <div className="buttons">
               <button
-                className="mr-3 px-3 py-1 bg-primary opacity-30 cursor-pointer hover:opacity-100 tablet:mr-5 tablet:px-5 tablet:py-3"
+                className="mr-3 px-5 py-1 bg-white text-darkgrey border-2 border-darkgrey opacity-30 cursor-pointer hover:opacity-100 tablet:mr-5 tablet:px-5 tablet:py-3"
                 type="submit"
                 onClick={() => {
                   setConfirmIsOpen(false);
@@ -46,7 +48,7 @@ const Deletion = ({
                 No
               </button>
               <button
-                className="ml-3 px-3 py-1 bg-red-500 opacity-30 cursor-pointer hover:opacity-100 tablet:ml-5 tablet:px-5 tablet:py-3"
+                className="ml-3 px-5 py-1 bg-darkgrey text-white opacity-30 cursor-pointer hover:opacity-100 tablet:ml-5 tablet:px-5 tablet:py-3"
                 type="submit"
                 onClick={async () => {
                   setConfirmIsOpen(false);

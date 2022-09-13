@@ -8,7 +8,6 @@ import CheckEntry from "../../utils/validation/title.validation.component";
 import Modal from "react-modal";
 import BlogDataServices from "../services/crud-blog.component";
 import React from "react";
-import Deletion from "./confirm-del.modal.component";
 
 const AddEditBlog = ({
   modalIsOpen,
@@ -42,12 +41,14 @@ const AddEditBlog = ({
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [dateCreated, setDateCreated] = useState("");
+  const [timeCreated, setTimeCreated] = useState<Date>();
   const [headerTitle, setHeaderTitle] = useState("New Blog");
   const [buttonTitle, setButtonTitle] = useState("PUBLISH");
 
   const { currentUser } = useContext<IUserContext>(UserContext);
   let isValid: boolean = false; //if all enteries are valid
 
+  const tablet = useMediaQuery("(min-width:640px)");
   const laptop = useMediaQuery("(min-width:1024px)");
 
   const getDate = () => {
@@ -77,6 +78,7 @@ const AddEditBlog = ({
     setTitle(docSnapData.title);
     setContent(docSnapData.content);
     setDateCreated(docSnapData.date);
+    setTimeCreated(docSnapData.time);
     setHeaderTitle("Edit Blog");
     setButtonTitle("EDIT");
   };
@@ -104,7 +106,7 @@ const AddEditBlog = ({
       const date = dateCreated ? dateCreated : getDate();
       const uid = currentUser && currentUser.uid;
       const username = currentUser && currentUser.email.split("@")[0];
-      const time = new Date();
+      const time = timeCreated ? timeCreated : new Date();
       const newBlogObj: IBlogObj = {
         title,
         content,
@@ -171,17 +173,25 @@ const AddEditBlog = ({
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.75)",
           },
-          content: {
-            width: laptop ? "50%" : "80%",
-            height: laptop ? "70%" : "60%",
-            margin: "auto",
-          },
+          content: tablet
+            ? {
+                width: laptop ? "50%" : "80%",
+                height: laptop ? "80%" : "55%",
+                margin: "auto",
+                overflow: "hidden",
+              }
+            : {
+                width: "80%",
+                height: "65%",
+                margin: "auto",
+                overflow: "hidden",
+              },
         }}
       >
-        <div className="new-blog h-full w-full m-auto flex flex-col">
-          <div className="header flex justify-between items-center w-11/12 m-auto">
+        <div className="new-blog h-full flex flex-col w-full tablet:overflow-hidden m-auto tablet:w-11/12 tablet:mt-3">
+          <div className="header flex tablet:overflow-hidden justify-between items-center">
             <div className="new-blog">
-              <hr className="bg-primary mt-10 h-2 w-10"></hr>
+              <hr className="bg-primary h-2 w-10"></hr>
               <h1 className="text-2xl tablet:text-4xl">{headerTitle}</h1>
             </div>
             <div className="close-button pt-10" onClick={closeModal}>
@@ -191,7 +201,7 @@ const AddEditBlog = ({
               />
             </div>
           </div>
-          <div className="body w-11/12 mt-5 m-auto h-full">
+          <div className="body mt-0 h-full">
             <form
               className="form-field flex flex-col h-full"
               onSubmit={handleSubmit}
@@ -206,7 +216,7 @@ const AddEditBlog = ({
                 required
               />
               <textarea
-                className="content-input resize-none overflow-hidden p-5 h-3/5 border-solid border-2 border-gray-300 rounded-none outline-none overflow-y-auto text-gray-500"
+                className="content-input resize-none overflow-hidden p-5 h-3/5 mt-3 border-solid border-2 border-gray-300 rounded-none outline-none overflow-y-auto text-gray-500"
                 name="content"
                 placeholder="Content"
                 value={content}
@@ -216,7 +226,7 @@ const AddEditBlog = ({
 
               <div className="flex justify-end">
                 <button
-                  className="submit-button max-w-screen-sm mt-5 py-3 w-full bg-primary opacity-30 text-white font-semibold text-xl not-italic tablet:w-1/4 tablet:py-5 tablet:text-2xl"
+                  className="submit-button max-w-screen-sm mt-5 py-3 w-full bg-darkgrey opacity-30 text-white font-semibold text-lg not-italic tablet:w-1/5 tablet:py-5 tablet:text-xl"
                   type="submit"
                   disabled={true}
                 >

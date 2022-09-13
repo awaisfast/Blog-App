@@ -98,35 +98,34 @@ const MyBlogsContent = ({
         setLoaderIsOpen={setLoaderIsOpen}
         delBlogId={delBlogId}
       />
-      <div className="home-contents h-full w-5/6 m-auto flex flex-col laptop:ml-25 laptop:w-4/5">
-        <div className="my-blogs flex flex-col-reverse items-center tablet:items-start tablet:flex-row">
+      <div className="home-contents h-full w-5/6 m-auto flex flex-col laptop:w-4/5">
+        <div className="my-blogs flex items-center tablet:items-start tablet:flex-row">
           <div className="header">
-            <hr className="bg-primary mt-10 h-1 w-5"></hr>
+            <h1
+              className="font-lexend mt-10 mb-5 font-light text-2xl leading-8 text-darkgrey cursor-pointer"
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              Back
+            </h1>
+            <hr className="bg-primary h-1 w-5"></hr>
             <h1 className="font-lexend font-light text-2xl leading-8 text-darkgrey">
               My Blogs
             </h1>
           </div>
-          <div className="go-home mt-11 cursor-pointer tablet:ml-5">
-            <h1
-              className="font-lexend font-light text-xl leading-8 text-darkgrey"
-              onClick={() => {
-                navigate("/");
-              }}
-            >
-              Home
-            </h1>
-          </div>
         </div>
-        <div className="search-field mt-2 w-full laptop:mt-0">
-          <div className="search flex w-3/5 m-auto flex-col tablet:flex-row tablet:w-full tablet:m-0 tablet:justify-center ">
+        <div className="search-field mt-2 invisible w-full tablet:mt-0">
+          <div className="search flex justify-center">
             <input
-              className="search-input h-10 px-5 font-lexend rounded-full border-2 outline-none focus:outline-primary tablet:w-1/2"
+              className="h-10 px-5 w-3/4 font-lexend rounded-full border-2 outline-none focus:outline-primary tablet:w-1/2"
               type="search"
               placeholder="search"
               onChange={searchHandleChange}
+              autoFocus
             />
             <button
-              className="font-lexend mt-2 tablet:ml-2 tablet:mt-0"
+              className="font-lexend mt-2 ml-2 tablet:mt-0"
               onClick={() => {
                 setSearchIsOpen(false);
                 setSearchTerm("");
@@ -153,38 +152,76 @@ const MyBlogsContent = ({
               })
               .map((data: IBlogObj) => {
                 return (
-                  <div key={data.id} className="blog mb-5">
-                    <h1 className="date hidden font-semibold text-2xl leading-7 not-italic font-lexend tablet:block">
-                      {data.date.split(" ")[0]} {data.date.split(" ")[1]}
-                    </h1>
-                    <h1
-                      className="title w-fit mt-3 font-medium font-serif text-2xl leading-8 not-italic text-primary tablet:text-4xl cursor-pointer"
-                      onClick={() => {
-                        navigate("/blog-post", {
-                          state: { blogData: { data } },
-                        });
-                      }}
-                    >
-                      {data.title}
-                    </h1>
+                  <div key={data.id} className="blog mb-10">
+                    <div className="date">
+                      <h1 className="date hidden font-semibold text-2xl leading-7 not-italic font-lexend tablet:block">
+                        {data.date.split(" ")[0]} {data.date.split(" ")[1]}
+                      </h1>
+                    </div>
+                    <div className="title-edit-del flex justify-between">
+                      <div className="title">
+                        <h1
+                          className="title w-fit mt-3 font-medium font-serif text-2xl leading-8 not-italic text-primary tablet:text-4xl cursor-pointer"
+                          onClick={() => {
+                            navigate("/blog-post", {
+                              state: { blogData: { data } },
+                            });
+                          }}
+                        >
+                          {data.title}
+                        </h1>
+                      </div>
+                      <div className="edit-del">
+                        <div className="edit-del mt-3">
+                          <div className="flex justify-between">
+                            <div
+                              className="edit-icon mr-8 flex flex-row justify-center items-center cursor-pointer hover:opacity-50"
+                              onClick={() => {
+                                setOldBlogId(data.id);
+                                openModal();
+                              }}
+                            >
+                              <FontAwesomeIcon
+                                className="text-xl text-primary tablet:text-3xl"
+                                icon={faPenToSquare}
+                              />
+                            </div>
+                            <div
+                              className="delete-icon flex flex-row justify-center items-center cursor-pointer hover:opacity-50"
+                              onClick={async () => {
+                                setConfirmIsOpen(true);
+                                setDelBlogId(data.id);
+                              }}
+                            >
+                              <FontAwesomeIcon
+                                className="text-xl text-primary tablet:text-3xl"
+                                icon={faTrashCan}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <br />
-                    <h1
-                      className="content text-base leading-5 not-italic font-lexend font-light cursor-pointer tablet:text-xl tablet:leading-6"
-                      onClick={() => {
-                        navigate("/blog-post", {
-                          state: { blogData: { data } },
-                        });
-                      }}
-                    >
-                      {data.content.length > 250
-                        ? data.content.slice(0, 250)
-                        : data.content}{" "}
-                      {data.content.length > 250 && (
-                        <button className="read-more font-light text-xl leading-6 not-italic font-lexend text-primary">
-                          ...read more
-                        </button>
-                      )}
-                    </h1>
+                    <div className="content">
+                      <h1
+                        className="content text-base leading-5 not-italic font-lexend font-light cursor-pointer tablet:text-xl tablet:leading-6"
+                        onClick={() => {
+                          navigate("/blog-post", {
+                            state: { blogData: { data } },
+                          });
+                        }}
+                      >
+                        {data.content.length > 250
+                          ? data.content.slice(0, 250)
+                          : data.content}{" "}
+                        {data.content.length > 250 && (
+                          <button className="read-more font-light text-xl leading-6 not-italic font-lexend text-primary">
+                            ...read more
+                          </button>
+                        )}
+                      </h1>
+                    </div>
                     <div className="userName mt-5 flex justify-between items-center">
                       <h1 className="date font-semibold text-base leading-5 not-italic font-lexend tablet:hidden">
                         {data.date}
@@ -193,45 +230,13 @@ const MyBlogsContent = ({
                         @{data.username}
                       </h1>
                     </div>
-                    <div className="edit-del mt-3 flex justify-end w-full">
-                      <div className="flex justify-between w-1/4 laptop:w-1/12 tablet:w-1/6">
-                        <div
-                          className="edit-icon flex flex-row justify-center items-center cursor-pointer hover:opacity-50"
-                          onClick={() => {
-                            setOldBlogId(data.id);
-                            openModal();
-                          }}
-                        >
-                          <FontAwesomeIcon
-                            className="text-2xl text-primary tablet:text-3xl"
-                            icon={faPenToSquare}
-                          />
-                        </div>
-                        <div
-                          className="delete-icon flex flex-row justify-center items-center cursor-pointer hover:opacity-50"
-                          onClick={async () => {
-                            setConfirmIsOpen(true);
-                            setDelBlogId(data.id);
-                            // setLoaderIsOpen(true);
-                            // //confirm value from confirmModal
-                            // await BlogDataServices.deleteBlog(data.id);
-                            // setLoaderIsOpen(false);
-                            // window.location.reload();
-                          }}
-                        >
-                          <FontAwesomeIcon
-                            className="text-2xl text-primary tablet:text-3xl"
-                            icon={faTrashCan}
-                          />
-                        </div>
-                      </div>
-                    </div>
+                    {/*  */}
                   </div>
                 );
               })}
           {userBlogs.length === 0 && (
             <div className="empty flex justify-center items-center">
-              <h1>You have no blogs to show 😔</h1>
+              <h1 className="text-xl">You have no blogs to show 😔</h1>
             </div>
           )}
         </div>

@@ -147,14 +147,7 @@ const LogIn = ({
                 </button>
               </form>
             </div>
-            <div className="mt-10 font-lexend flex justify-center tablet:justify-start">
-              <Footer
-                msg={"Don't have an account?"}
-                to={"/sign-up"}
-                link={"Sign-up"}
-              />
-            </div>
-            <div className="alerts mt-3">
+            <div className="alerts mt-2 mb-12">
               <div className="user-notFound hidden">
                 <Alert props="Email or password are incorrect." />
               </div>
@@ -167,6 +160,13 @@ const LogIn = ({
               <div className="pass-alert hidden">
                 <Alert props="Password format incorrect." />
               </div>
+            </div>
+            <div className="mt-5 font-lexend flex justify-center tablet:justify-start">
+              <Footer
+                msg={"Don't have an account?"}
+                to={"/sign-up"}
+                link={"Sign-up"}
+              />
             </div>
           </div>
         </div>

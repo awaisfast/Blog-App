@@ -193,19 +193,19 @@ const SignUp = () => {
           </div>
           <div className="alerts mt-3">
             <div className="name-alert hidden">
-              <Alert props="Enter full name." />
+              <Alert alertMessage="Enter full name." />
             </div>
             <div className="email-alert mt-5 hidden">
-              <Alert props="Enter valid Email Address." />
+              <Alert alertMessage="Enter valid Email Address." />
             </div>
             <div className="pass-alert mt-5 hidden">
-              <Alert props="Password must be atleast 6 characters long." />
+              <Alert alertMessage="Password must be atleast 6 characters long." />
             </div>
             <div className="cpw-alert mt-5 hidden">
-              <Alert props="Passwords do not match." />
+              <Alert alertMessage="Passwords do not match." />
             </div>
             <div className="used-email mt-5 hidden">
-              <Alert props="Email already exists." />
+              <Alert alertMessage="Email already exists." />
             </div>
           </div>
         </div>

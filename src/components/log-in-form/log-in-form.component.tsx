@@ -144,16 +144,16 @@ const LogIn = () => {
           </div>
           <div className="alerts mt-3">
             <div className="user-notFound hidden">
-              <Alert props="Email or password are incorrect." />
+              <Alert alertMessage="Email or password are incorrect." />
             </div>
             <div className="incorrect-pw hidden">
-              <Alert props="Email or password are incorrect." />
+              <Alert alertMessage="Email or password are incorrect." />
             </div>
             <div className="email-alert hidden">
-              <Alert props="Enter valid Email Address." />
+              <Alert alertMessage="Enter valid Email Address." />
             </div>
             <div className="pass-alert hidden">
-              <Alert props="Password must be atleast 6 characters long." />
+              <Alert alertMessage="Password must be atleast 6 characters long." />
             </div>
           </div>
         </div>

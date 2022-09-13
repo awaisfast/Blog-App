@@ -15,11 +15,10 @@ const BlogsContent = () => {
               <h1 className="date hidden font-semibold text-2xl leading-7 not-italic font-lexend tablet:block">
                 {data.date}
               </h1>
-              <h1 className="title mt-3 font-medium font-serif text-2xl leading-8 not-italic text-primary tablet:text-4xl">
+              <h1 className="title mt-3 mb-2 font-medium font-serif text-2xl leading-8 not-italic text-primary tablet:text-4xl">
                 {data.title}
               </h1>
-              <br />
-              <span className="content font-normal text-base leading-5 not-italic font-lexend tablet:text-xl tablet:leading-6">
+              <p className="content font-normal text-base leading-5 not-italic font-lexend tablet:text-xl tablet:leading-6">
                 {data.content.length > 250
                   ? data.content.slice(0, 250)
                   : data.content}{" "}
@@ -30,7 +29,7 @@ const BlogsContent = () => {
                     </span>
                   </a>
                 )}
-              </span>
+              </p>
               <div className="userName mt-5 flex justify-between items-center">
                 <h1 className="date font-semibold text-base leading-5 not-italic font-lexend tablet:hidden">
                   {data.date}

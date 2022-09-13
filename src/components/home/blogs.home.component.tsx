@@ -3,7 +3,7 @@ const BlogsContent = () => {
   return (
     <div className="home-contents h-full w-5/6 m-auto flex flex-col laptop:ml-20 laptop:w-4/5">
       <div className="latest flex flex-col items-center tablet:justify-start tablet:items-start">
-        <hr className="bg-primary mt-10 h-1 w-5"></hr>
+        <hr className="bg-primary mt-10 h-1 w-5" />
         <h1 className="font-light text-xl leading-6 text-darkgrey font-lexend">
           Latest
         </h1>
@@ -35,7 +35,7 @@ const BlogsContent = () => {
                 <h1 className="date font-semibold text-base leading-5 not-italic font-lexend tablet:hidden">
                   {data.date}
                 </h1>
-                <h1 className="text-[#A5A5A5] font-lexend font-light text-base leading-5">
+                <h1 className="text-lightgrey font-lexend font-light text-base leading-5">
                   {data.username}
                 </h1>
               </div>

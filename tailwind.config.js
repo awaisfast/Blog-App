@@ -17,6 +17,7 @@ module.exports = {
       colors: {
         primary: "#56CC6A",
         darkgrey: "#272727",
+        lightgrey: "#A5A5A5",
       },
     },
     screens: {

@@ -9,10 +9,10 @@ export const UserContext = createContext<IUserContext>({
   currentUser: null,
   setCurrentUser: (currentUser) => {},
 });
-interface Props {
+interface UserProviderProps {
   children?: ReactNode;
 }
-export const UserProvider = ({ children }: Props) => {
+export const UserProvider = ({ children }: UserProviderProps) => {
   const [currentUser, setCurrentUser] = useState(null);
   const value = {
     currentUser,

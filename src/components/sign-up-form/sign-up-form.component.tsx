@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  createAuthUserWithEmailAndPassword,
-  createUserDocumentFromAuth,
-} from "../../utils/firebase/firebase.utils";
-import "../sign-up-form/sign-up-form.component.css";
 
+import Alert from "../alert/alert.component";
+import "../sign-up-form/sign-up-form.component.css";
 import ImageBackground from "../login-signup/image.component";
 import WelcomeContent from "../login-signup/welcome.component";
 import Footer from "../login-signup/footer.component";
-
-import Alert from "../alert/alert.component";
-import { UserCredential } from "firebase/auth";
 import CheckEmail from "../../utils/validation/email.validation.component";
 import CheckPassword from "../../utils/validation/password.validation.component";
 import CheckName from "../../utils/validation/name.validation.component";
 import CheckConfirmPassword from "../../utils/validation/confirm-password.validation.component";
 import CheckAllEnteries from "../../utils/validation/all-enteries.validation.component";
+
+import {
+  createAuthUserWithEmailAndPassword,
+  createUserDocumentFromAuth,
+} from "../../utils/firebase/firebase.utils";
+import { UserCredential } from "firebase/auth";
 
 const SignUp = () => {
   type defaultForms = {
@@ -129,93 +129,88 @@ const SignUp = () => {
   };
 
   return (
-    <>
-      <div className="signUp-Page h-full flex">
-        <ImageBackground props={"Sign Up"} />
-        <div className="signUp-Content w-full flex flex-col laptop:w-3/5">
-          <div className="w-9/12 m-auto">
-            <WelcomeContent content={"sign you up"} />
-            <div className="inputs mt-5">
-              <form
-                className="form-field flex flex-col"
-                onSubmit={handleSubmit}
-              >
-                <input
-                  className="name-input"
-                  type="text"
-                  name="name"
-                  placeholder="Full Name"
-                  value={name}
-                  onChange={handleChange}
-                  required
-                />
-
-                <input
-                  className="email-input"
-                  type="email"
-                  name="email"
-                  placeholder="Email Address"
-                  value={email}
-                  onChange={handleChange}
-                  required
-                />
-
-                <input
-                  className="pw-input"
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={handleChange}
-                  required
-                />
-
-                <input
-                  className="cpw-input"
-                  type="password"
-                  name="confirmPassword"
-                  placeholder="Confirm Password"
-                  value={confirmPassword}
-                  onChange={handleChange}
-                  required
-                />
-                <button
-                  className="submit-button max-w-screen-sm mt-5 pt-5 pb-5 w-1/1 bg-darkgrey text-white opacity-30 font-semibold text-xl not-italic tablet:w-2/6"
-                  type="submit"
-                  disabled={true}
-                >
-                  SUBMIT
-                </button>
-              </form>
-            </div>
-            <div className="mt-10">
-              <Footer
-                msg={"Already have an account?"}
-                to={"/log-in"}
-                link={"log-in"}
+    <div className="signUp-Page h-full flex">
+      <ImageBackground props={"Sign Up"} />
+      <div className="signUp-Content w-full flex flex-col laptop:w-3/5">
+        <div className="w-9/12 m-auto">
+          <WelcomeContent content={"sign you up"} />
+          <div className="inputs mt-5">
+            <form className="form-field flex flex-col" onSubmit={handleSubmit}>
+              <input
+                className="name-input"
+                type="text"
+                name="name"
+                placeholder="Full Name"
+                value={name}
+                onChange={handleChange}
+                required
               />
+
+              <input
+                className="email-input"
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                value={email}
+                onChange={handleChange}
+                required
+              />
+
+              <input
+                className="pw-input"
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={password}
+                onChange={handleChange}
+                required
+              />
+
+              <input
+                className="cpw-input"
+                type="password"
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={handleChange}
+                required
+              />
+              <button
+                className="submit-button max-w-screen-sm mt-5 pt-5 pb-5 w-1/1 bg-darkgrey text-white opacity-30 font-semibold text-xl not-italic tablet:w-2/6"
+                type="submit"
+                disabled={true}
+              >
+                SUBMIT
+              </button>
+            </form>
+          </div>
+          <div className="mt-10">
+            <Footer
+              message={"Already have an account?"}
+              to={"/log-in"}
+              link={"log-in"}
+            />
+          </div>
+          <div className="alerts mt-3">
+            <div className="name-alert hidden">
+              <Alert alertMessage="Enter full name." />
             </div>
-            <div className="alerts mt-3">
-              <div className="name-alert hidden">
-                <Alert props="Enter full name." />
-              </div>
-              <div className="email-alert mt-5 hidden">
-                <Alert props="Enter valid Email Address." />
-              </div>
-              <div className="pass-alert mt-5 hidden">
-                <Alert props="Password must be atleast 6 characters long." />
-              </div>
-              <div className="cpw-alert mt-5 hidden">
-                <Alert props="Passwords do not match." />
-              </div>
-              <div className="used-email mt-5 hidden">
-                <Alert props="Email already exists." />
-              </div>
+            <div className="email-alert mt-5 hidden">
+              <Alert alertMessage="Enter valid Email Address." />
+            </div>
+            <div className="pass-alert mt-5 hidden">
+              <Alert alertMessage="Password must be atleast 6 characters long." />
+            </div>
+            <div className="cpw-alert mt-5 hidden">
+              <Alert alertMessage="Passwords do not match." />
+            </div>
+            <div className="used-email mt-5 hidden">
+              <Alert alertMessage="Email already exists." />
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 export default SignUp;

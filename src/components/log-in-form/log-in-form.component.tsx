@@ -7,8 +7,8 @@ import WelcomeContent from "../login-signup/welcome.component";
 import CheckEmail from "../../utils/validation/email.validation.component";
 import CheckPassword from "../../utils/validation/password.validation.component";
 import CheckAllEnteries from "../../utils/validation/all-enteries.validation.component";
-import { UserContext } from "../../context/user.context";
 import { signInAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
+import { UserContext } from "../../context/user.context";
 import { UserCredential } from "firebase/auth";
 const LogIn = () => {
   type defaultFormFieldsType = {

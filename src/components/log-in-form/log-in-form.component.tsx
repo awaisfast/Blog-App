@@ -121,6 +121,7 @@ const LogIn = ({
                 onSubmit={handleSubmit}
               >
                 <input
+                  data-testid="email-input"
                   className="email-input"
                   type="email"
                   name="email"
@@ -130,6 +131,7 @@ const LogIn = ({
                   required
                 />
                 <input
+                  data-testid="pw-input"
                   className="pw-input"
                   type="password"
                   name="password"

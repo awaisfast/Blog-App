@@ -152,6 +152,7 @@ const SignUp = ({
                 onSubmit={handleSubmit}
               >
                 <input
+                  data-testid="name-input"
                   className="name-input"
                   type="text"
                   name="name"
@@ -162,6 +163,7 @@ const SignUp = ({
                 />
 
                 <input
+                  data-testid="email-input"
                   className="email-input"
                   type="email"
                   name="email"
@@ -172,6 +174,7 @@ const SignUp = ({
                 />
 
                 <input
+                  data-testid="pw-input"
                   className="pw-input"
                   type="password"
                   name="password"
@@ -182,6 +185,7 @@ const SignUp = ({
                 />
 
                 <input
+                  data-testid="cpw-input"
                   className="cpw-input"
                   type="password"
                   name="confirmPassword"

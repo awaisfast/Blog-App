@@ -2,6 +2,18 @@ import { useNavigate } from "react-router-dom";
 import Contents from "./data.json";
 const BlogsContent = () => {
   const navigate = useNavigate();
+  interface dataType {
+    id: number;
+    title: string;
+    date: string;
+    username: string;
+    content: string;
+  }
+  const handleOpenBlogPost = (route: string, data: dataType) => {
+    navigate(route, {
+      state: { blogData: { ...data } },
+    });
+  };
   return (
     <div className="home-contents h-full w-5/6 m-auto flex flex-col laptop:ml-25 laptop:w-4/5">
       <div className="latest flex flex-col items-center tablet:items-start">
@@ -20,9 +32,7 @@ const BlogsContent = () => {
               <h1
                 className="title mt-3 mb-2 font-medium font-serif text-2xl leading-8 not-italic text-primary tablet:text-4xl cursor-pointer"
                 onClick={() => {
-                  navigate("/blog-post", {
-                    state: { blogData: { data } },
-                  });
+                  handleOpenBlogPost("/blog-post", data);
                 }}
               >
                 {data.title}
@@ -35,9 +45,7 @@ const BlogsContent = () => {
                   <button
                     className="read-more font-light text-xl leading-6 not-italic font-lexend text-primary"
                     onClick={() => {
-                      navigate("/blog-post", {
-                        state: { blogData: { data } },
-                      });
+                      handleOpenBlogPost("/blog-post", data);
                     }}
                   >
                     ...read more

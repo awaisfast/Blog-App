@@ -26,8 +26,8 @@ const NavBar = () => {
     window.localStorage.setItem("isLoggedIn", "false");
     window.localStorage.setItem("userContext", "");
   };
-  const navigateToHome = () => {
-    navigate("/");
+  const navigateTo = (route: string) => {
+    navigate(route);
   };
   const navigate = useNavigate();
   return (
@@ -37,7 +37,7 @@ const NavBar = () => {
           <div
             className="symbol bg-primary flex justify-center items-center h-10 w-10 rounded-full cursor-pointer laptop:h-16 laptop:w-16"
             onClick={() => {
-              navigate("/my-blogs");
+              navigateTo("/my-blogs");
             }}
           >
             <h1 className=" font-normal font-lexend text-xl leading-6 not-italic text-white tablet:text-darkgrey laptop:text-white laptop:text-3xl laptop:leading-10">
@@ -50,7 +50,9 @@ const NavBar = () => {
         </div>
         <div
           className="search-icon flex flex-row justify-center items-center cursor-pointer laptop:flex-col"
-          onClick={navigateToHome}
+          onClick={() => {
+            navigateTo("/");
+          }}
         >
           <FontAwesomeIcon
             className="text-2xl text-primary tablet:text-3xl"

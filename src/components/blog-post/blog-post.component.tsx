@@ -3,18 +3,15 @@ import { useLocation } from "react-router-dom";
 const BlogPost = () => {
   interface ILocationState {
     blogData: {
-      data: {
-        id: number;
-        title: string;
-        date: string;
-        username: string;
-        content: string;
-      };
+      id: number;
+      title: string;
+      date: string;
+      username: string;
+      content: string;
     };
   }
   const { state } = useLocation();
   const { blogData } = state as ILocationState;
-  const { data } = blogData;
 
   return (
     <div className="blog-post h-full ">
@@ -24,23 +21,22 @@ const BlogPost = () => {
             <h1 className="font-normal text-2xl leading-8 text-darkgrey font-serif">
               Back
             </h1>
-            {/* <div className="back-arrow bg-backArrow w-fit">awa</div> */}
           </a>
         </div>
         <div className="blog-content mt-20 flex flex-col justify-center tablet:w-5/6 tablet:mt-0">
           <div className="blog w-4/5 m-auto tablet:m-0">
             <div className="title">
               <h1 className="font-serif text-4xl text-primary font-light tablet:text-5xl">
-                {data.title}
+                {blogData.title}
               </h1>
             </div>
             <div className="author-date font-lexend mt-5 text-lightgrey font-thin text-2xl leading-6">
-              <h1 className="mb-3">writter by {data.username}</h1>
-              <h1>{data.date}</h1>
+              <h1 className="mb-3">written by {blogData.username}</h1>
+              <h1>{blogData.date}</h1>
             </div>
             <div className="content mt-20">
               <p className="font-lexend font-normal text-xl first-letter:text-7xl leading-normal tablet:text-2xl">
-                {data.content}
+                {blogData.content}
               </p>
             </div>
           </div>

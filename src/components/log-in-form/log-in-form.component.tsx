@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, Dispatch } from "react";
 import { useNavigate } from "react-router-dom";
 import Alert from "../alert/alert.component";
 import Footer from "../login-signup/footer.component";
@@ -10,7 +10,11 @@ import CheckAllEnteries from "../../utils/validation/all-enteries.validation.com
 import { signInAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 import { UserContext } from "../../context/user.context";
 import { UserCredential } from "firebase/auth";
-const LogIn = () => {
+const LogIn = ({
+  setLoaderIsOpen,
+}: {
+  setLoaderIsOpen: Dispatch<React.SetStateAction<boolean>>;
+}) => {
   type defaultFormFieldsType = {
     email: string;
     password: string;
@@ -35,15 +39,19 @@ const LogIn = () => {
     submitButton.disabled = true;
     submitButton.classList.add("opacity-30");
     try {
+      setLoaderIsOpen(true);
       const res: UserCredential | undefined =
         await signInAuthUserWithEmailAndPassword(email, password);
+      setLoaderIsOpen(false);
       const { user }: any = res;
       setCurrentUser(user);
       setFormFields(defaultFormFields);
       window.localStorage.setItem("isLoggedIn", "true");
       window.localStorage.setItem("userContext", JSON.stringify(user));
       user ? navigate("/") : navigate("/log-in");
+      window.location.reload();
     } catch (error: any) {
+      setLoaderIsOpen(false);
       switch (error.code) {
         case "auth/wrong-password":
           const incorrect = document.querySelector(
@@ -102,11 +110,11 @@ const LogIn = () => {
   return (
     <div className="signUp-page h-full flex">
       <ImageBackground props={"Login"} />
-      <div className="signUp-content w-full flex flex-col laptop:w-3/5">
-        <div className="w-9/12 m-auto">
+      <div className="logIn-content w-full flex flex-col laptop:w-3/5">
+        <div className="w-10/12 m-auto laptop:w-9/12 tablet:pt-20">
           <WelcomeContent content={"log you in"} />
 
-          <div className="inputs mt-5">
+          <div className="inputs mt-8">
             <form className="form-field flex flex-col" onSubmit={handleSubmit}>
               <input
                 className="email-input"
@@ -127,7 +135,7 @@ const LogIn = () => {
                 required
               />
               <button
-                className="submit-button mt-5 pt-5 pb-5 w-1/1 bg-darkgrey text-white opacity-30 font-semibold text-xl not-italic tablet:w-2/6"
+                className="submit-button font-lexend mt-5 py-3 w-1/1 bg-darkgrey text-white opacity-30 font-semibold text-xl not-italic tablet:w-2/6"
                 type="submit"
                 disabled={true}
               >
@@ -142,7 +150,7 @@ const LogIn = () => {
               link={"Sign-up"}
             />
           </div>
-          <div className="alerts mt-3">
+          <div className="alerts mt-2 mb-12">
             <div className="user-notFound hidden">
               <Alert alertMessage="Email or password are incorrect." />
             </div>

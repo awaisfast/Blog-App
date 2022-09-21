@@ -1,7 +1,12 @@
 import { createContext, ReactNode, useState } from "react";
 
+interface ICurrentUser {
+  uid: string;
+  displayName: string;
+  email: string;
+}
 interface IUserContext {
-  currentUser: null;
+  currentUser: null | ICurrentUser;
   setCurrentUser: (currentUser: null) => void;
 }
 

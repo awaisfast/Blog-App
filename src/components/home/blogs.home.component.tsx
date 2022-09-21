@@ -11,6 +11,18 @@ const BlogsContent = ({
   setLoaderIsOpen: Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const navigate = useNavigate();
+  interface dataType {
+    id: number;
+    title: string;
+    date: string;
+    username: string;
+    content: string;
+  }
+  const handleOpenBlogPost = (route: string, data: dataType) => {
+    navigate(route, {
+      state: { blogData: { ...data } },
+    });
+  };
   const [blogs, setBlogs] = useState<any>([]);
   const [searchTerm, setSearchTerm] = useState("");
   let dataDocs;
@@ -38,7 +50,7 @@ const BlogsContent = ({
   return (
     <div className="home-contents h-full w-5/6 m-auto flex flex-col laptop:w-4/5">
       <div className="latest flex flex-col items-start">
-        <hr className="bg-primary mt-10 h-1 w-5"></hr>
+        <hr className="bg-primary mt-10 h-1 w-5" />
         <h1 className="font-lexend font-light text-2xl leading-8 text-darkgrey">
           Latest
         </h1>
@@ -87,9 +99,7 @@ const BlogsContent = ({
                   <h1
                     className="title w-fit mt-3 font-medium font-serif text-2xl leading-8 not-italic text-primary tablet:text-4xl cursor-pointer"
                     onClick={() => {
-                      navigate("/blog-post", {
-                        state: { blogData: { data } },
-                      });
+                      handleOpenBlogPost("/blog-post", data);
                     }}
                   >
                     {data.title}
@@ -98,9 +108,7 @@ const BlogsContent = ({
                   <span
                     className="content font-light text-base leading-5 not-italic font-lexend cursor-pointer tablet:text-xl tablet:leading-6"
                     onClick={() => {
-                      navigate("/blog-post", {
-                        state: { blogData: { data } },
-                      });
+                      handleOpenBlogPost("/blog-post", data);
                     }}
                   >
                     {data.content.length > 250
@@ -110,9 +118,7 @@ const BlogsContent = ({
                       <button
                         className="read-more font-light text-base leading-6 not-italic font-lexend text-primary tablet:text-xl"
                         onClick={() => {
-                          navigate("/blog-post", {
-                            state: { blogData: { data } },
-                          });
+                          handleOpenBlogPost("/blog-post", data);
                         }}
                       >
                         ...read more
@@ -123,7 +129,7 @@ const BlogsContent = ({
                     <h1 className="date font-lexend font-semibold text-base leading-5 not-italic tablet:hidden">
                       {data.date}
                     </h1>
-                    <h1 className="font-lexend text-[#A5A5A5] font-light text-base leading-5">
+                    <h1 className="font-lexend text-lightgrey font-light text-base leading-5">
                       @{data.username}
                     </h1>
                   </div>
@@ -132,7 +138,7 @@ const BlogsContent = ({
             })
         ) : (
           <div className="empty flex justify-center items-center">
-            <h1 className="text-5xl">There nothing to show 😔</h1>
+            <h1 className="text-5xl">There's nothing to show 😔</h1>
           </div>
         )}
       </div>

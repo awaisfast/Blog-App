@@ -1,18 +1,18 @@
 import { Link } from "react-router-dom";
 
-interface Content {
-  msg: string;
+interface FooterProps {
+  message: string;
   to: string;
   link: string;
 }
-const Footer = ({ msg, to, link }: Content) => {
+const Footer = ({ message, to, link }: FooterProps) => {
   return (
-    <span className="font-lexend text-xl leading-6 not-italic text-darkgrey">
-      {msg}
+    <p className="font-lexend text-xl leading-6 not-italic text-darkgrey">
+      {message}
       <Link className="authentication-link ml-1 text-primary" to={to}>
         {link}
       </Link>
-    </span>
+    </p>
   );
 };
 export default Footer;

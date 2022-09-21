@@ -84,6 +84,11 @@ const MyBlogsContent = ({
     const { value } = event.target;
     setSearchTerm(value);
   };
+  const handleOpenBlogPost = (route: string, data: IBlogObj) => {
+    navigate(route, {
+      state: { blogData: { ...data } },
+    });
+  };
   return (
     <>
       <AddEditBlog
@@ -163,9 +168,7 @@ const MyBlogsContent = ({
                         <h1
                           className="title w-fit mt-3 font-medium font-serif text-2xl leading-8 not-italic text-primary tablet:text-4xl cursor-pointer"
                           onClick={() => {
-                            navigate("/blog-post", {
-                              state: { blogData: { data } },
-                            });
+                            handleOpenBlogPost("/blog-post", data);
                           }}
                         >
                           {data.title}
@@ -207,9 +210,7 @@ const MyBlogsContent = ({
                       <h1
                         className="content text-base leading-5 not-italic font-lexend font-light cursor-pointer tablet:text-xl tablet:leading-6"
                         onClick={() => {
-                          navigate("/blog-post", {
-                            state: { blogData: { data } },
-                          });
+                          handleOpenBlogPost("/blog-post", data);
                         }}
                       >
                         {data.content.length > 250
@@ -230,7 +231,6 @@ const MyBlogsContent = ({
                         @{data.username}
                       </h1>
                     </div>
-                    {/*  */}
                   </div>
                 );
               })}

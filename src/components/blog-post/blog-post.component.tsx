@@ -4,24 +4,21 @@ import { MdKeyboardBackspace } from "react-icons/md";
 const BlogPost = () => {
   interface ILocationState {
     blogData: {
-      data: {
-        id: number;
-        title: string;
-        date: string;
-        username: string;
-        content: string;
-      };
+      id: number;
+      title: string;
+      date: string;
+      username: string;
+      content: string;
     };
   }
   const navigate = useNavigate();
   const { state } = useLocation();
   const { blogData } = state as ILocationState;
-  const { data } = blogData;
-  const { date } = data;
+  const { date } = blogData;
   const dateNum = date.split(" ")[0];
   const dateMonth = date.split(" ")[1].toLowerCase();
   const dateYear = date.split(" ")[2];
-  data.date = dateNum + " " + dateMonth + " " + dateYear;
+  blogData.date = dateNum + " " + dateMonth + " " + dateYear;
 
   return (
     <div className="blog-post h-full ">
@@ -42,16 +39,16 @@ const BlogPost = () => {
           <div className="blog w-4/5 m-auto tablet:m-0">
             <div className="title laptop:ml-5">
               <h1 className="font-serif text-4xl text-primary font-light tablet:text-5xl">
-                {data.title}
+                {blogData.title}
               </h1>
             </div>
             <div className="author-date font-lexend mt-5 text-lightgrey font-thin text-2xl leading-6 laptop:ml-5">
-              <h1 className="mb-3">written by @{data.username}</h1>
-              <h1>on {data.date}</h1>
+              <h1 className="mb-3">written by @{blogData.username}</h1>
+              <h1>on {blogData.date}</h1>
             </div>
             <div className="content mt-10">
               <p className="font-lexend font-light text-xl first-letter:text-7xl leading-normal whitespace-pre-line tablet:text-2xl">
-                {data.content}
+                {blogData.content}
               </p>
             </div>
           </div>

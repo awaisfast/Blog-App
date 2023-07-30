@@ -1,5 +1,5 @@
 import { useState } from "react";
-import TaskBar from "../home/taskbar.home.component";
+import TaskBar from "../home/taskbar_home_component";
 import Loader from "../modals/loader.modal";
 import MyBlogsContent from "./my-blogs-content.component";
 const MyBlogs = () => {

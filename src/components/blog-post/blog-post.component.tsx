@@ -1,6 +1,5 @@
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { MdKeyboardBackspace } from "react-icons/md";
 const BlogPost = () => {
   interface ILocationState {
     blogData: {

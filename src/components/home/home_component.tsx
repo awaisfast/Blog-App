@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Loader from "../modals/loader.modal";
+import TaskBar from "./taskbar_home_component";
 import BlogsContent from "./blogs.home.component";
-import TaskBar from "./taskbar.home.component";
 
 const Home = () => {
   const [searchIsOpen, setSearchIsOpen] = useState(false);

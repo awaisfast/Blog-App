@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Alert from "../alert/alert.component";
@@ -18,7 +18,11 @@ import {
 } from "../../utils/firebase/firebase.utils";
 import { UserCredential } from "firebase/auth";
 
-const SignUp = () => {
+const SignUp = ({
+  setLoaderIsOpen,
+}: {
+  setLoaderIsOpen: Dispatch<React.SetStateAction<boolean>>;
+}) => {
   type defaultForms = {
     name: string;
     email: string;
@@ -58,14 +62,21 @@ const SignUp = () => {
         return;
       }
       try {
+        setLoaderIsOpen(true);
         const res: UserCredential | undefined =
           await createAuthUserWithEmailAndPassword(email, password, name);
+        setLoaderIsOpen(false);
+
         if (res) {
           const { user } = res;
-          await createUserDocumentFromAuth(user, { name });
+          const username = email.split("@")[0];
+          setLoaderIsOpen(true);
+          await createUserDocumentFromAuth(user, { name, username });
+          setLoaderIsOpen(false);
           user ? navigate("/log-in") : navigate("/");
         }
       } catch (error: unknown) {
+        setLoaderIsOpen(false);
         if ((error as Error).code === "auth/email-already-in-use") {
           const usedEmailAlert = document.querySelector(
             ".used-email"
